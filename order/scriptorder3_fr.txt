@@ -1,0 +1,106 @@
+﻿
+FONTES
+{
+	FONTE0
+	{
+		FICHIER="tlk.fnt"
+		SIZE=38
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+	}
+
+	FONTE1
+	{
+		FICHIER="tlk.fnt"
+		SIZE=40
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE2
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE3
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+		GRAS
+	}
+
+	FONTE4
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+		GRAS
+	}
+
+}
+
+BITMAPS
+{
+	FOND
+	{
+		CLOUDS=(37,57,138,16,16)
+	}
+
+	SCREENSHOT1
+	{
+		FICHIER="screen0.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+	SCREENSHOT2
+	{
+		FICHIER="screen1.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+}
+
+COMPOSITION
+{
+	ETIRER=FOND (0,0)
+	CARREDEGRADE=COULEUR(168,0,20) (19,250) (980,380)
+	BITMAP=SCREENSHOT2 (769,574)
+	BITMAP=SCREENSHOT1 (17,14)
+	TEXTE=FONTE0 (275,10) "Vous venez d'utiliser la version Shareware du jeu Powermanga de TLK Games."
+	TEXTE=FONTE0 (275,41) "Nous espérons que vous êtes satisfait des performances de ce ludiciel."
+	TEXTE=FONTE0 (275,70) "Le moment est sans doute venu d'enregistrer votre jeu."
+	TEXTE=FONTE0 (275,100) "Vous recevrez la version finale complète du jeu 3D Card Games Unlimited pour seulement"
+	TEXTE=FONTE4 (275,123) "6"
+	TEXTE=FONTE1 (293,128) ",95 Euros"
+	TEXTE=FONTE0 (388,129) "(ou son équivalent dans une autre monnaie)."
+	TEXTE=FONTE0 (276,162) "En vous procurant la version finale, vous accèderez aux autres modes de jeux"
+	TEXTE=FONTE0 (276,193) "disponibles et leurs nombreuses variantes. La formidable possibilité de"
+	TEXTE=FONTE0 (276,222) "jouer à plusieurs en réseau local ou sur Internet avec d'autres partenaires."
+	TEXTE=FONTE1 (58,254) "Vous obiendrez ainsi la garantie à vie de disposer de toutes les futures mises à jour du jeu enregistré."
+	TEXTE=FONTE3 (49,282) "Pour télécharger la version enregistrée et jouer immédiatement :"
+	TEXTE=FONTE3 (65,324) "1."
+	TEXTE=FONTE1 (90,329) " Venez sur le site www.TLKGAMES.com, sélectionnez votre jeu et cliquez sur le panier."
+	TEXTE=FONTE1 (97,366) "Passez votre commande sécurisée, vérifiez la et validez."
+	TEXTE=FONTE3 (65,361) "2."
+	TEXTE=FONTE1 (96,401) "Dès acceptation de votre règlement,vous recevrez immédiatement dans votre boite à lettre un"
+	TEXTE=FONTE3 (65,396) "3."
+	TEXTE=FONTE1 (97,429) "lien pour télécharger votre jeu ainsi que la facture. "
+	TEXTE=FONTE0 (51,466) "Merci d'enregistrer votre jeu. Votre participation est essentielle pour notre entreprise et nous permet de"
+	TEXTE=FONTE0 (51,498) "continuer à développer de nouvelles fonctionnalités et de nouveaux jeux."
+	TEXTE=FONTE0 (51,530) "N'hésitez-pas à nous contacter à"
+	TEXTE=FONTE1 (332,529) "info@tlkgames.com"
+	TEXTE=FONTE0 (506,530) ". Votre opinion compte réellement pour nous et"
+	TEXTE=FONTE0 (51,562) "nous répondons à tous les messages reçus."
+	TEXTE=FONTE1 (47,626) "Cet enregistrement vous donne droit gratuitement à toutes les futures mises à"
+	TEXTE=FONTE1 (47,655) "jour du jeu, sans limite de temps."
+	TEXTE=FONTE0 (180,697) "TLK Games Développeurs de jeux vidéo depuis 1990."
+	TEXTE=FONTE1 (529,730) "http://www.tlkgames.com"
+}
