@@ -1,6 +1,6 @@
 AC_PREREQ(2.50)
 dnl AC_INIT(src/powermanga.c)
-AC_INIT([Powermanga], [0.91], [http://sf.net/projects/powermanga/bugs], [powermanga])
+AC_INIT([Powermanga], [0.92], [http://sf.net/projects/powermanga/bugs], [powermanga])
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_SYSTEM
 #AM_INIT_AUTOMAKE(powermanga,0.90)

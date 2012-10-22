@@ -1,7 +1,7 @@
 /** 
  * @file shots.c
  * @brief Handle all shots elements 
- * @date 2012-08-26 
+ * @date 2012-10-22
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
@@ -490,8 +490,6 @@ shot_display (shot_struct * bullet)
           {
             bullet->img_angle = (Sint16) (bullet->angle / PI_BY_16);
           }
-        /* save current angle for the calculation of the next angle */
-        bullet->img_old_angle = bullet->img_angle;
         /* avoid negative indexes */
         bullet->img_angle = (Sint16) abs (bullet->img_angle);
         /* avoid a shot angle higher than the number of images */
@@ -499,6 +497,8 @@ shot_display (shot_struct * bullet)
           {
             bullet->img_angle = (Sint16) (bullet->spr.numof_images - 1);
           }
+        /* save current angle for the calculation of the next angle */
+        bullet->img_old_angle = bullet->img_angle;
         /* draw the shot sprite */
         draw_sprite (bullet->spr.img[bullet->img_angle],
                      (Uint32) bullet->spr.xcoord,
