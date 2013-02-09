@@ -5,7 +5,7 @@ AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_SYSTEM
 #AM_INIT_AUTOMAKE(powermanga,0.90)
 AM_INIT_AUTOMAKE([foreign])
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADER(config.h)
 
 dnl  Check our build tools
 AC_PROG_CC
