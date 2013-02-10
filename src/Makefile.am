@@ -8,7 +8,7 @@ powermanga_SOURCES = $(SOURCES_MAIN) $(SOURCES_C) $(SOURCES_ASM)
 powermanga_CFLAGS = -DPREFIX=\"$(prefix)\" \
                     -DSCOREFILE=\"$(scoredir)/$(score)\" \
                     @XLIB_CFLAGS@ @SDL_CFLAGS@ 
-powermanga_LDADD = @XLIB_LIBS@ @SDL_LIBS@
+powermanga_LDADD = @XLIB_LIBS@ @SDL_LIBS@ -lm
 
 install-data-hook:
 	-chown root:games "$(DESTDIR)/$(gamesdir)/powermanga"
