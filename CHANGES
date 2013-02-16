@@ -1,8 +1,9 @@
-2013-08-10
+2013-08-16
 Powermanga 0.92
 - Fix Debian bug #478213
 - Fix configure.ac: replace AM_CONFIG_HEADER to AC_CONFIG_HEADERS
 - Add  explicitly link with needed libm, fix Debian bug #632945
+- Fix PNG_iTXt_SUPPORTED support
 
 2012-08-26
 Powermanga 0.91

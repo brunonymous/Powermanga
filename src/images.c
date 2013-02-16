@@ -2,12 +2,12 @@
  * @file images.c
  * @brief Read and extract data from sprite and bitmap file 
  * @created 2006-12-13 
- * @date 2012-08-25
+ * @date 2013-02-16 
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
 /* 
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2013 TLK Games all rights reserved
  * $Id: images.c,v 1.34 2012/08/25 15:55:00 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -31,6 +31,10 @@
 #include "display.h"
 #include "images.h"
 #include "log_recorder.h"
+#ifdef PNG_EXPORT_ENABLE
+#include <zlib.h>
+#include <png.h>
+#endif
 
 static char *bitmap_read (bitmap * bmp, Uint32 num_of_obj,
                           Uint32 num_of_images, char *addr,
@@ -815,7 +819,23 @@ image_to_buffer_32_bit (Uint32 width, Uint32 height, unsigned char *source,
   return (char *) buffer;
 }
 
-static png_text text[] = {
+static png_text text[5] = {
+#ifdef PNG_iTXt_SUPPORTED
+  {
+   PNG_TEXT_COMPRESSION_NONE, "Title", "Powermanga Graphics", 19, 0, NULL,
+   NULL},
+  {
+
+   PNG_TEXT_COMPRESSION_NONE, "Author",
+   "Jean-Michel Martin de Santero, David Igreja", 43, 0, NULL, NULL},
+  {
+   PNG_TEXT_COMPRESSION_NONE, "Description", "Image of Powermanga Game", 24,
+   0, NULL, NULL},
+  {
+   PNG_TEXT_COMPRESSION_NONE, "Copyright", "TLK Games", 9, 0, NULL, NULL},
+  {
+   PNG_TEXT_COMPRESSION_NONE, "Software", "GNU Linux", 9, 0, NULL, NULL},
+#else
   {
    PNG_TEXT_COMPRESSION_NONE, "Title", "Powermanga Graphics", 19},
   {
@@ -828,7 +848,9 @@ static png_text text[] = {
    PNG_TEXT_COMPRESSION_NONE, "Copyright", "TLK Games", 9},
   {
    PNG_TEXT_COMPRESSION_NONE, "Software", "GNU Linux", 9},
+#endif
 };
+
 
 
 /**
