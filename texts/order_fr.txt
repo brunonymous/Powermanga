@@ -25,7 +25,7 @@
 "LICENSE FOR MORE"
 "DETAILS         "
 "                "
-" (c) 1999-2008  "
+" (c) 1999-2013  "
 "   TLK  GAMES   "
 "                "
 " LINUX  VERSION "

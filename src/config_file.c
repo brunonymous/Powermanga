@@ -2,11 +2,11 @@
  * @file config_file.c 
  * @brief Handle configuratio file 
  * @created 2005-12-12 
- * @date 2012-08-26
+ * @date 2013-08-17
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2013 TLK Games all rights reserved
  * $Id: config_file.c,v 1.30 2012/08/26 19:16:07 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@
 #define CONFIG_FILE_NAME "powermanga.conf"
 
 config_file *power_conf = NULL;
-static const char *lang_to_text[MAX_OF_LANGUAGES] = { "en", "fr" };
+static const char *lang_to_text[MAX_OF_LANGUAGES] = { "en", "fr", "it" };
 
 static char *config_dir = NULL;
 static char config_filename[] = CONFIG_DIR_NAME;
@@ -60,9 +60,20 @@ configfile_reset_values ()
 /* FIXME use GetLocaleInfo() function to retrieve langage */
   power_conf->lang = EN_LANG;
 #else
-  if (getenv ("LANG") != NULL && strncmp (getenv ("LANG"), "fr", 2) == 0)
+  if (getenv ("LANG") != NULL)
     {
-      power_conf->lang = FR_LANG;
+      if (strncmp (getenv ("LANG"), "fr", 2) == 0)
+        {
+          power_conf->lang = FR_LANG;
+        }
+      else if (strncmp (getenv ("LANG"), "it", 2) == 0)
+        {
+          power_conf->lang = IT_LANG;
+        }
+      else
+        {
+          power_conf->lang = EN_LANG;
+        }
     }
   else
     {
@@ -247,6 +258,10 @@ configfile_load (void)
       if (strcmp (str, "fr") == 0)
         {
           power_conf->lang = FR_LANG;
+        }
+      else if (strcmp (str, "it") == 0)
+        {
+          power_conf->lang = IT_LANG;
         }
       else
         {
@@ -437,7 +452,7 @@ configfile_scan_arguments (Sint32 arg_count, char **arg_values)
         {
           printf (POWERMANGA_VERSION);
           printf ("\n");
-          printf ("copyright (c) 1998-2012 TLK Games\n");
+          printf ("copyright (c) 1998-2013 TLK Games\n");
           printf ("website: http://linux.tlk.fr/\n");
           return FALSE;
         }

@@ -2,11 +2,11 @@
  * @file config_file.h
  * @brief Handle configuration file 
  * @created 2005-12-12 
- * @date 2009-01-08
+ * @date 2013-02-17 
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2013 TLK Games all rights reserved
  * $Id: config_file.h,v 1.11 2012/06/03 17:06:14 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -36,6 +36,7 @@ extern "C"
   {
     EN_LANG,
     FR_LANG,
+    IT_LANG,
     MAX_OF_LANGUAGES
   } LANGUAGES;
 
