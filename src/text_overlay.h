@@ -4,7 +4,7 @@
  * @date 2007-08-06
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: text_overlay.h,v 1.11 2012/06/03 17:06:15 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

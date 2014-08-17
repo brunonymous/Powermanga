@@ -7,7 +7,7 @@
  * @author Patrice Duhamel 
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: script_page.h,v 1.9 2012/08/26 19:22:39 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

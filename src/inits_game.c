@@ -6,7 +6,7 @@
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: inits_game.c,v 1.29 2012/08/25 13:58:37 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

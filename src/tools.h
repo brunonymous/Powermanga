@@ -5,7 +5,7 @@
  * @date 2012-08-26 
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: tools.h,v 1.33 2012/08/26 15:44:26 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

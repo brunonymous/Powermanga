@@ -6,7 +6,7 @@
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: log_recorder.c,v 1.11 2012/08/26 19:16:07 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

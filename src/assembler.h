@@ -5,7 +5,7 @@
  * @date 2007-09-02
  */
 /*
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: assembler.h,v 1.11 2012/06/03 17:06:14 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
