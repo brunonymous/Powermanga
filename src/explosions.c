@@ -1,12 +1,12 @@
 /** 
  * @file explosions.c
  * @brief Handle explosions and explosion fragments 
- * @date 2010-10-23
+ * @date 2014-09-18
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
 /* 
- * copyright (c) 1998-2012 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: explosions.c,v 1.28 2012/06/03 17:06:15 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -269,7 +269,12 @@ explosions_handle ()
                /* explosion move to the right out of the screen? */
                (((Sint16) blast->xcoord +
                  blast->img[blast->current_image]->w) >=
-                (offscreen_width - 1)))
+                (offscreen_width - 1)) ||
+               (((Sint16) blast->xcoord +
+                 blast->img[blast->current_image]->w - 1) < offscreen_startx)
+               ||
+               (((Sint16) blast->ycoord +
+                 blast->img[blast->current_image]->h - 1) < offscreen_starty))
             {
               /* remove a explosion or star element from list */
               explosion_del (blast);

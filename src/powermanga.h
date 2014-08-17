@@ -1,12 +1,12 @@
 /**
  * @file powermanga.h
  * @brief global header file
- * @date 2013-02-17
+ * @date 2014-08-17
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2013 TLK Games all rights reserved
+ * copyright (c) 1998-2014 TLK Games all rights reserved
  * $Id: powermanga.h,v 1.109 2012/08/26 15:44:26 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 #if !defined(PACKAGE_STRING)
 #define PACKAGE_STRING "Powermanga 0.92"
 #endif
-#define POWERMANGA_VERSION PACKAGE_STRING "(2013-02-17)"
+#define POWERMANGA_VERSION PACKAGE_STRING "(2013-02-18)"
 
 #if !defined(POWERMANGA_SDL) && !defined(POWERMANGA_X11)
 #define POWERMANGA_SDL
