@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -ex
+
+rm -f aclocal.m4 configure config.log
+(cd autotools && rm -f config.guess config.sub depcomp install-sh missing mkinstalldirs)
+
+#aclocal-1.9
+#automake-1.9 -a -c --foreign
+aclocal
+automake -a -c --foreign
+autoconf
+autoheader
+
