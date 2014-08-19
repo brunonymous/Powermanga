@@ -1,0 +1,65 @@
+TARGET = powermanga_psp
+
+OBJS = bonus.o \
+  counter_shareware.o \
+  congratulations.o \
+  config_file.o \
+  curve_phase.o \
+  display.o \
+  display_sdl.o \
+  display_x11.o \
+  electrical_shock.o \
+  enemies.o \
+  energy_gauge.o \
+  explosions.o \
+  extra_gun.o \
+  gfx_wrapper.o \
+  grid_phase.o \
+  guardians.o \
+  images.o \
+  inits_game.o \
+  lispreader.o \
+  lonely_foes.o \
+  main.o \
+  menu.o \
+  menu_sections.o \
+  meteors_phase.o \
+  movie.o \
+  options_panel.o \
+  powermanga.o \
+  scalebit.o \
+  scale2x.o \
+  scale3x.o \
+  sdl_mixer.o \
+  satellite_protections.o \
+  scrolltext.o \
+  spaceship.o \
+  spaceship_weapons.o \
+  special_keys.o \
+  sprites_string.o \
+  shots.o \
+  shockwave.o \
+  script_page.o \
+  starfield.o \
+  text_overlay.o \
+  texts.o \
+  tools.o 
+
+INCDIR = 
+CC       = psp-gcc
+CXX      = psp-g++
+
+CFLAGS = -DPOWERMANGA_PSP -O2 -G0 -Wall
+CFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+CXXFLAGS = $(CFLAGS)
+ASFLAGS = $(CFLAGS)
+
+LIBS=-lSDL_mixer -lSDL_image -lSDL -lpspaudiolib -lpspaudio -lmikmod -logg -lvorbis -lvorbisidec -lpspgum -lpspgu -lpsphprm -lpng -ljpeg -lz -lc -lm -lgcc -lstdc++
+LIBDIR =
+LDFLAGS =
+
+EXTRA_TARGETS = EBOOT.PBP
+PSP_EBOOT_TITLE = PowerManga
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak

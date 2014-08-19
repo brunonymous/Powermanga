@@ -1,0 +1,104 @@
+﻿
+FONTES
+{
+	FONTE0
+	{
+		FICHIER="tlk.fnt"
+		SIZE=38
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+	}
+
+	FONTE1
+	{
+		FICHIER="tlk.fnt"
+		SIZE=40
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE2
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE3
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+		GRAS
+	}
+
+	FONTE4
+	{
+		FICHIER="tlk.fnt"
+		SIZE=60
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+}
+
+BITMAPS
+{
+	FOND
+	{
+		CLOUDS=(37,57,138,16,16)
+	}
+
+	SCREENSHOT1
+	{
+		FICHIER="screen0.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+	SCREENSHOT2
+	{
+		FICHIER="screen1.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+}
+
+COMPOSITION
+{
+	ETIRER=FOND (0,0)
+	CARREDEGRADE=COULEUR(168,0,20) (19,260) (980,400)
+	BITMAP=SCREENSHOT1 (30,14)
+	TEXTE=FONTE3 (296,8) "Great!"
+	TEXTE=FONTE0 (388,14) "Since you have installed it on your computer, you have played"
+	TEXTE=FONTE0 (296,44) "times with the Shareware version of 3D Card Games Unlimited. Since you like it, why don't"
+	TEXTE=FONTE0 (296,78) "you register NOW! You will get the final registred version of this game for only"
+	TEXTE=FONTE4 (296,101) "6"
+	TEXTE=FONTE1 (313,112) ".95 Euros"
+	TEXTE=FONTE0 (404,112) "(or the equivalent in a foreign currency). You will have access to"
+	TEXTE=FONTE0 (296,145) "the 4 card games of the complete game"
+	TEXTE=FONTE0 (296,178) "and with up to four variations for each one"
+	TEXTE=FONTE1 (48,224) "You will receive, for free and with no limit of time, all future updated versions of your registered game."
+	TEXTE=FONTE3 (74,306) "How to download and play immediately?"
+	TEXTE=FONTE3 (101,354) "1."
+	TEXTE=FONTE1 (132,359) "Come on our site www.TLKGAMES.com, select your game and click on the basket."
+	TEXTE=FONTE3 (101,388) "2."
+	TEXTE=FONTE1 (132,393) "Place your securized order, check and validate it."
+	TEXTE=FONTE3 (102,422) "3."
+	TEXTE=FONTE1 (133,427) "As soon as your payment is accepted you will received almost immediately in your mailbox"
+	TEXTE=FONTE1 (134,457) "a link to download your game and your bill."
+	TEXTE=FONTE0 (75,503) "Thank you for registering, your participation is essential for us. With your support we shall be able"
+	TEXTE=FONTE0 (75,532) "to develop new games and new functionalities."
+	TEXTE=FONTE0 (75,561) "Don't hesitate to contact us at"
+	TEXTE=FONTE1 (337,561) "info@tlkgames.com"
+	TEXTE=FONTE0 (511,562) ". We do value your opinion and answer to all"
+	TEXTE=FONTE0 (75,589) "messages."
+	TEXTE=FONTE0 (215,682) "Even if you decide not to register, share the pleasure of playing with your friends. Just send"
+	TEXTE=FONTE0 (607,717) "them our address"
+	TEXTE=FONTE1 (763,716) "http://www.tlkgames.com"
+	NBLAUNCH=FONTE0 (922,14)
+	COMPTEUR=(31,663)
+}
