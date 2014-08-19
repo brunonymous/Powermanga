@@ -1,0 +1,94 @@
+﻿
+FONTES
+{
+	FONTE0
+	{
+		FICHIER="tlk.fnt"
+		SIZE=38
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+	}
+
+	FONTE1
+	{
+		FICHIER="tlk.fnt"
+		SIZE=40
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE2
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE3
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+		GRAS
+	}
+
+	FONTE4
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+		GRAS
+	}
+
+}
+
+BITMAPS
+{
+	FOND
+	{
+		CLOUDS=(37,57,138,16,16)
+	}
+
+	SCREENSHOT1
+	{
+		FICHIER="screen1.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+	SCREENSHOT2
+	{
+		FICHIER="screen2.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+}
+
+COMPOSITION
+{
+	ETIRER=FOND (0,0)
+	CARREDEGRADE=COULEUR(168,0,20) (19,239) (980,390)
+	BITMAP=SCREENSHOT2 (757,18)
+	BITMAP=SCREENSHOT1 (22,20)
+	TEXTE=FONTE4 (319,98) "How to register your game ?"
+	TEXTE=FONTE3 (53,276) "How to download and play immediately?"
+	TEXTE=FONTE3 (76,319) "1."
+	TEXTE=FONTE1 (107,324) "Come on our website www.TLKGAMES.com, select your game and click on the basket."
+	TEXTE=FONTE3 (76,353) "2."
+	TEXTE=FONTE1 (107,358) "Place your securized order, check and validate it."
+	TEXTE=FONTE3 (77,387) "3."
+	TEXTE=FONTE1 (108,392) "As soon as your payment is accepted you will received almost immediately in your mailbox"
+	TEXTE=FONTE1 (109,422) "a link to download your game and your bill."
+	TEXTE=FONTE0 (57,465) "Thank you for registering, your participation is essential for us. With your support we shall be able"
+	TEXTE=FONTE0 (57,496) "to develop new games and new functionalities."
+	TEXTE=FONTE0 (57,530) "Don't hesitate to contact us at"
+	TEXTE=FONTE1 (320,530) "info@tlkgames.com"
+	TEXTE=FONTE0 (496,531) ". We do value your opinion and answer to all"
+	TEXTE=FONTE0 (57,560) "messages."
+	TEXTE=FONTE1 (56,638) "You will receive, for free and with no limit of time, all future updated versions of your registered game."
+	TEXTE=FONTE0 (401,700) "http://www.tlkgames.com"
+}
