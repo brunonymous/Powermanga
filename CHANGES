@@ -1,4 +1,4 @@
-2014-08-17
+2014-08-19
 Powermanga 0.92
 - Fix Debian bug #478213
 - Fix configure.ac: replace AM_CONFIG_HEADER to AC_CONFIG_HEADERS
