@@ -1,0 +1,64 @@
+GP2X port done by Stuart Bingë <skbinge@gmail.com>, July-August 2006
+
+Based off the Powermanga 0.80 source, available from
+http://linux.tlk.fr/games/Powermanga/ (GPL licensed).
+
+This port *should* conform to the GP2X Common User Interface Recommendations
+(http://wiki.gp2x.org/wiki/Common_User_Interface_Recommendations), however the
+assignments can easily be changed in the handleGP2XButtons() method in
+sdl_tlk.cpp (line 454) if needs be. Well, easily enough if you have access to a
+GP2X build environment ;-) Mapping from the GP2X button codes to Powermanga's
+internal control array is probably the worst bit of it all.
+
+
+----------
+
+
+This port, while relatively straightforward, did cause a couple of headaches.
+I've documented them here to possibly help others when porting apps to the GP2X:
+
+ * Beware of filename case issues! GP2X runs Linux internally, which is
+    case-sensitive, however the SD cards are formatted with FAT, which has its
+    own file case ... "issues", especially with all-uppercase files. It's
+    probably best/easiest to just convert all filenames to lowercase on the
+    filesystem and in the code.
+
+ * Beware of endianess issues when performing binary I/O on the filesystem -
+    it's best to use constructs such as found in SDL_endian.h to ensure your
+    code is endian-independant.
+
+ * Games that use SDL_Mixer generally use a large chunksize parameter when
+    calling Mix_OpenAudio(), such as 4096, which, when ported to the GP2X,
+    causes the sound to lag substantially. Good values to try for this
+    parameter on the GP2X are 64 or 128 - the smaller the better (more
+    synchronised sounds), however make it too small and the sound will start
+    to stutter...
+
+ * The GP2X's SDL_Mixer doesn't play XM mod files natively... so you'll
+    probably have to convert any XM's (or any other mods?) to WAV/OGG/MP3 etc.
+
+ * Debugging without a serial connection can be a real pain, as you constantly
+    bash your head against a brick wall when you attempt to run a fresh
+    compile... only to have it go black and never come back. If you're doing
+    any sort of development work for the GP2X I highly recommend getting USB
+    networking set up (over the standard USB cable that comes with the GP2X)
+    so that you can simply telnet in to the GP2X and run programs/see output
+    from there. If you're feeling more adventurous you can either get an
+    EXT->Serial connection, or get the USB gadget kernel module for the GP2X
+    and connect to it as a "modem" through minicom/hyperterminal, etc.
+
+ * Debugging with a card reader is also a real pain. Combine this with no
+    USB networking/serial connection and you're guaranteed not only to wear out
+    your sanity, but your nice shiny new SD card as well!
+
+ * Porting source written in a foreign language can be rather challenging ;-)
+    Babelfish comes in really handy here...
+
+If you're still reading this, please consider porting something over to the
+GP2X yourself, or better yet write your own game! The GP2X, while seriously
+awesome as-is, has huge potential not only with emulators but also with the
+large collection of open source games out there. Check out
+http://happypenguin.org/ for a list, and get coding! :-)
+
+So long, and enjoy Powermanga!
+ - Stu
