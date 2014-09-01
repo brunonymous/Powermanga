@@ -2,8 +2,11 @@
 Type=Application
 Name=Powermanga
 GenericName=PowerManga
-Comment=Play a vertical shoot 'em up game
+Comment=Play a vertical shoot'em up game
+Comment[de]=Spiele ein vertikales "Shoot 'em up"-Spiel
+Comment[fr]=Jouer un jeu de shoot them up vertical
 Icon=powermanga
 Exec=powermanga
 Terminal=false
 Categories=Game;ArcadeGame;
+Keywords=shmup;arcade;shooter;colourful;weapons;spaceship;

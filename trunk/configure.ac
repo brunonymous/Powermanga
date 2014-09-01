@@ -1,6 +1,6 @@
 AC_PREREQ(2.50)
 dnl AC_INIT(src/powermanga.c)
-AC_INIT([Powermanga], [0.92], [http://sf.net/projects/powermanga/bugs], [powermanga])
+AC_INIT([Powermanga], [0.93], [http://sf.net/projects/powermanga/bugs], [powermanga])
 AC_CONFIG_AUX_DIR(autotools)
 AC_CANONICAL_SYSTEM
 #AM_INIT_AUTOMAKE(powermanga,0.90)
@@ -54,7 +54,7 @@ if test "x${enable_devel}" = "xyes"; then
   AC_DEFINE(USE_MALLOC_WRAPPER, 1, Define to use a malloc wrapper)
   CFLAGS="-Wall -Werror -pedantic -Wextra -std=gnu99 -g"
 else
-  CFLAGS="-O3 -Werror -Wall -pedantic -Wextra -std=gnu99"
+  CFLAGS="-O3 -Werror -Wall -pedantic -Wextra -std=gnu99 $CFLAGS"
 fi
 
 dnl  Check for SDL_mixer
