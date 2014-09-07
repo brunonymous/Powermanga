@@ -2,7 +2,7 @@
  * @file display_sdl.c
  * @brief handle displaying and updating the graphical components of the game
  * @created 2003-07-09
- * @date 2012-08-26 
+ * @date 2014-09-07 
  * @author Bruno Ethvignot
  */
 /*
@@ -991,7 +991,7 @@ display_handle_events (void)
           else if (event.jhat.value == SDL_HAT_LEFT)
             {
               joy_top = 0;
-              joy_right = 1;
+              joy_right = 0;
               joy_down = 0;
               joy_left = 1;
             }
