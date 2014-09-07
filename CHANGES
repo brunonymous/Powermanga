@@ -1,4 +1,4 @@
-2014-09-01
+2014-09-07
 Powermanga 0.93
 - Fix man page: The option to play the game in fullscreen mode
    must be --fullscreen not --full. (Patch Debian)
@@ -6,6 +6,7 @@ Powermanga 0.93
   (Patch Debian)
 - Fix configure.ac: Add custom CFLAGS (Patch Debian)
 - Fix segmentation fault in the About menu (English version) 
+- Fix Debian bug #561670 (D-pad won't move the ship straight left)
 
 2014-08-19
 Powermanga 0.92
