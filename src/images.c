@@ -2,7 +2,7 @@
  * @file images.c
  * @brief Read and extract data from sprite and bitmap file 
  * @created 2006-12-13 
- * @date 2013-02-16 
+ * @date 2014-09-17 
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
@@ -715,7 +715,6 @@ image_to_buffer_32_bit (Uint32 width, Uint32 height, unsigned char *source,
       return NULL;
     }
   size_counter = size_counter >> 2;
-  width = width;
   p = (unsigned char *) buffer;
   count = 0;
   t = (_compress *) repeats;

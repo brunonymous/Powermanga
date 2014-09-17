@@ -52,6 +52,7 @@
  */
 /* #define USE_SCALE_RANDOMWRITE */
 
+#ifdef USE_SCALE_RANDOMWRITE
 static inline void scale3x_8_def_whole(scale3x_uint8* restrict dst0, scale3x_uint8* restrict dst1, scale3x_uint8* restrict dst2, const scale3x_uint8* restrict src0, const scale3x_uint8* restrict src1, const scale3x_uint8* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -142,6 +143,7 @@ static inline void scale3x_8_def_whole(scale3x_uint8* restrict dst0, scale3x_uin
 		dst2[2] = src1[0];
 	}
 }
+#endif
 
 static inline void scale3x_8_def_border(scale3x_uint8* restrict dst, const scale3x_uint8* restrict src0, const scale3x_uint8* restrict src1, const scale3x_uint8* restrict src2, unsigned count)
 {
@@ -245,6 +247,7 @@ static inline void scale3x_8_def_center(scale3x_uint8* restrict dst, const scale
 	}
 }
 
+#ifdef USE_SCALE_RANDOMWRITE
 static inline void scale3x_16_def_whole(scale3x_uint16* restrict dst0, scale3x_uint16* restrict dst1, scale3x_uint16* restrict dst2, const scale3x_uint16* restrict src0, const scale3x_uint16* restrict src1, const scale3x_uint16* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -335,6 +338,7 @@ static inline void scale3x_16_def_whole(scale3x_uint16* restrict dst0, scale3x_u
 		dst2[2] = src1[0];
 	}
 }
+#endif
 
 static inline void scale3x_16_def_border(scale3x_uint16* restrict dst, const scale3x_uint16* restrict src0, const scale3x_uint16* restrict src1, const scale3x_uint16* restrict src2, unsigned count)
 {
@@ -438,6 +442,7 @@ static inline void scale3x_16_def_center(scale3x_uint16* restrict dst, const sca
 	}
 }
 
+#ifdef USE_SCALE_RANDOMWRITE
 static inline void scale3x_32_def_whole(scale3x_uint32* restrict dst0, scale3x_uint32* restrict dst1, scale3x_uint32* restrict dst2, const scale3x_uint32* restrict src0, const scale3x_uint32* restrict src1, const scale3x_uint32* restrict src2, unsigned count)
 {
 	assert(count >= 2);
@@ -528,6 +533,7 @@ static inline void scale3x_32_def_whole(scale3x_uint32* restrict dst0, scale3x_u
 		dst2[2] = src1[0];
 	}
 }
+#endif
 
 static inline void scale3x_32_def_border(scale3x_uint32* restrict dst, const scale3x_uint32* restrict src0, const scale3x_uint32* restrict src1, const scale3x_uint32* restrict src2, unsigned count)
 {

@@ -2,7 +2,7 @@
  * @file gfxroutines.c 
  * @brief 
  * @created 2003-04-15  
- * @date 2010-08-15
+ * @date 2014-09-17 
  * @author Sam Hocevar <sam@zoy.org> 
  */
 /* 
@@ -284,9 +284,16 @@ draw_bitmap_char_24 (unsigned char *src, unsigned char *dest,
                      Uint32 width, Uint32 height,
                      Uint32 src_offset, Uint32 dest_offset)
 {
+
+#if defined(POWERMANGA_LOG_ENABLED)
   LOG_WARN ("not implemented: src = %p; dest = %p;  width = %i,"
-            "height, src_offset = %i, dest_offset = %i", src, dest, width,
-            height, src_offset, dest_offset);
+            "height = %i, src_offset = %i, dest_offset = %i", src, dest,
+            width, height, src_offset, dest_offset);
+#else
+  fprintf (stderr, "not implemented: src = %p; dest = %p;  width = %i,"
+           "height = %i, src_offset = %i, dest_offset = %i", src, dest, width,
+           height, src_offset, dest_offset);
+#endif
 }
 
 void
@@ -549,9 +556,15 @@ void
 put_sprite_mask_24bits (Uint32 _iColor, char *dest,
                         char *repeats_table, Uint32 size)
 {
+#if defined(POWERMANGA_LOG_ENABLED)
   LOG_WARN ("not implemented: _iColor = %i; dest = %p;"
             "repeats_table = %p; size = %i", _iColor, dest, repeats_table,
             size);
+#else
+  fprintf (stderr, "not implemented: _iColor = %i; dest = %p;"
+           "repeats_table = %p; size = %i", _iColor, dest, repeats_table,
+           size);
+#endif
 }
 
 void
@@ -593,8 +606,14 @@ poly16bits (char *dest, Sint32 numof_pixels, Sint32 color)
 void
 poly24bits (char *dest, Sint32 numof_pixels, Sint32 color)
 {
+#if defined(POWERMANGA_LOG_ENABLED)
   LOG_WARN ("not implemented: dest = %p; numof_pixels = %i; color = %i", dest,
             numof_pixels, color);
+#else
+  fprintf (stderr,
+           "not implemented: dest = %p; numof_pixels = %i; color = %i", dest,
+           numof_pixels, color);
+#endif
 }
 
 void
@@ -745,8 +764,14 @@ draw_electrical_shock_16 (char *dest, Eclair * shock, Sint32 numof_iterations)
 void
 draw_electrical_shock_24 (char *dest, Eclair * shock, Sint32 numof_iterations)
 {
+#if defined(POWERMANGA_LOG_ENABLED)
   LOG_WARN ("not implemented: dest = %p; shock = %p; numof_iterations = %i",
             dest, shock, numof_iterations);
+#else
+  fprintf (stderr,
+           "not implemented: dest = %p; shock = %p; numof_iterations = %i",
+           dest, shock, numof_iterations);
+#endif
 }
 
 void
@@ -798,8 +823,13 @@ _COPY2X16BITS_512x440 (char *_src, char *_dest, Uint32 height)
 void
 _COPY2X24BITS_512x440 (char *_src, char *_dest, Uint32 height)
 {
+#if defined(POWERMANGA_LOG_ENABLED)
   LOG_WARN ("not implemented. _src = %p; _dest = %p; height = %i", _src,
             _dest, height);
+#else
+  fprintf (stderr, "not implemented. _src = %p; _dest = %p; height = %i",
+           _src, _dest, height);
+#endif
 }
 
 void
@@ -884,9 +914,16 @@ void
 draw_rectangle_24 (char *adresse, Sint32 x, Sint32 y,
                    Sint32 coul, Sint32 width, Sint32 height)
 {
+#if defined(POWERMANGA_LOG_ENABLED)
   LOG_WARN
     ("not implemented. adresse = %p, x = %i, y = %i, coul = %i, width = %i, height = %i",
      adresse, x, y, coul, width, height);
+#else
+  fprintf
+    (stderr,
+     "not implemented. adresse = %p, x = %i, y = %i, coul = %i, width = %i, height = %i",
+     adresse, x, y, coul, width, height);
+#endif
 }
 
 void
