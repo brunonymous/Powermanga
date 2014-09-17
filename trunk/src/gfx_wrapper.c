@@ -3,7 +3,7 @@
  * @brief Wrap call to assembler routines in x86 or C routines in other
  * architectures
  * @created 1999-08-30 
- * @date 2012-08-26 
+ * @date 2014-09-17 
  * @author Bruno Ethvignot 
  */
 /*
@@ -67,8 +67,13 @@ type_routine_gfx (void)
 void
 put_pixel (char *dest, Sint32 xcoord, Sint32 ycoord, Sint32 color)
 {
+#if defined(POWERMANGA_LOG_ENABLED)
   LOG_ERR ("dest = %p, xcoord = %i, ycoord = %i, color = %i "
            "not implemented", dest, xcoord, ycoord, color);
+#else
+  fprintf (stderr, "dest = %p, xcoord = %i, ycoord = %i, color = %i "
+           "not implemented", dest, xcoord, ycoord, color);
+#endif
 }
 
 /** 

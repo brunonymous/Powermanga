@@ -2,7 +2,7 @@
  * @file log_recorder.h 
  * @brief Records log messages  
  * @created 2009-02-21 
- * @date 2012-04-03
+ * @date 2014-09-17 
  * @author Bruno Ethvignot
  */
 /*
@@ -27,7 +27,9 @@
 #ifndef __LOG_RECORD__
 #define __LOG_RECORD__
 
+#if defined(__GNUC__) && !defined(__clang__) 
 #define POWERMANGA_LOG_ENABLED
+#endif
 
 #if !defined(POWERMANGA_LOG_ENABLED)
 
