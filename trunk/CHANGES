@@ -1,4 +1,4 @@
-2014-09-17
+2014-09-20
 Powermanga 0.93
 - Fix man page: The option to play the game in fullscreen mode
    must be --fullscreen not --full. (Patch Debian)
