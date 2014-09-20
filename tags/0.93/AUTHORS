@@ -1,0 +1,60 @@
+
+* Jean-Michel Martin de Santero <jm at tlk dot fr>
+  main programmer of the game,
+  creator of the game on Win32-platform,
+  design of many sprites, modeling of some,
+  and writing of major part of the code
+
+* Bruno Ethvignot <bruno at tlk dot biz>
+  programmer of the menu, some guards,
+  main programmer of the Linux port
+  and maintener of the project
+
+* Andre Majorel <amajorel at teaser dot fr>
+  help for the Linux port (makefile and files routines)
+
+* Etienne Sobole <e.sobole at webshaker dot net>
+  anim player (intro and congratulations), optimizations 
+  and visuals effects (full blast and lightning weapons)
+
+* Emmanuel Founaud
+  sprites x86 assembler routines 
+
+* Guillaume Cottenceau <gc at mandrakesoft dot com>
+  bugs fixes and RPM Mandrake package
+
+* Sam Hocevar <sam at zoy dot org>
+  bugs fixes, Debian package, and rewrite the major
+  part of the assembler code in langage C (Thanx :-)
+
+ * Patrice Duhamel <pat at tlk dot fr>
+  bugs fixes, Win32 port
+
+* Laurent Duperval <lduperval at videotron dot ca>
+  game difficulty (--easy and --hard options)
+
+* David Igreja <david at tlk dot fr>
+  modeling and rendering of many sprites 
+  and the sounds effect
+
+* Michel Dogniaux <ldream at caramail dot com>
+  authors of all musics of the game
+
+* Jeronimo Pellegrini <pellegrini at mpc-net dot com dot br>
+  writing of the man page
+
+* David Carre <cpasjuste at gmail dot com>
+  PlayStation Portable port
+
+* Andrey Bogomolov
+  Some bug fixes.
+
+* Zio Maul
+  Adds the suport of the Italian language.
+
+* Company which has the origin developed the game
+  TLK Games
+  Registered office:
+    TLK Games - BP 24 - 81150 Florentin France <info at tlkgames dot com>
+  Oour office in Paris:
+    TLK Games - 69, rue de Lyon - 75012 Paris France <info at tlkgames dot com>

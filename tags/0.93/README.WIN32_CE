@@ -1,0 +1,20 @@
+Windows CE port done by Bruno Ethvignot, March 2009
+The port is abandoned, since Windows Mobile has been discontinued.
+
+The C compiler that was used:
+Microsoft Visual Studio C++ 2005 Version 8.0.50727.762
+Microsoft Windows Mobile Version 5.0 
+SDL 1.2.13
+
+Powermanga was tested, with the sound off, on the following devices:
+
+HTC Elf 100 (P3430) - Windows Mobile 5.2 
+- CPU       : Texas Instruments OMAP 850 201 MHz
+- Resolution: 240 x 320
+- Release   : June, 2007
+- RAM       : 128 MB
+
+HTC Kaiser
+- CPU       : QUALCOMM MSM7200 - 400 Mhz
+- Resolution: 240 x 320
+- RAM       : 64 MB

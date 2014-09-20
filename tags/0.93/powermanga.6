@@ -1,0 +1,146 @@
+.TH POWERMANGA 6 2014-08-17
+.SH NAME
+powermanga \- shoot\-'em\-up game
+.SH SYNOPSIS
+.B powermanga "[OPTIONS]"
+.SH DESCRIPTION
+Powermanga is a shoot'em up game; you will have to fight more than 60 different types of enemies.
+.P
+You start with a ship, and enemies show up throwing bombs at you. Shoot them, and get better weapons for your ship (otherwise, you won't go too far!)
+.P
+To get better weapons, you will have to catch green and red gems. Whenever you pick a green gem, the highlighted option at the right side of the screen goes up one unit.
+.P
+The options are, from the bottom to the top:
+.TP
+- More speed
+.TP
+- More energy to your ship
+If you get out of energy, you lose your ship. Losing your ship means either going back to the ship you were using before you "upgraded' it, or dying if you had no previous ship! You can check your energy level in the little bar at the bottom (the bar at the right is yours; the one at the left is your enemy's, in case you're fighting a big one)
+.TP
+- Several options for different weapons
+.TP
+- The last option gets you a better ship
+.P
+If the current option is "more power to the leftside straight weapons", for example, you may select it and they will immediately take effect.
+.P
+If the current option is already the last, and you pick a green or red gem, you will go back to the first one (but you will get an extra side-weapon). Also, whenever you pick an option, the current option goes back to the first one.
+.SH THE GEMS
+During the game, you will sometimes see gems falling down when an enemy is destroyed. You may catch those gems:
+.TP
+- Green gems
+As we said before, makes the current option go up one unit.
+.TP
+- Red gems
+Similar to the green gem, but it increases 2 units instead of 1.
+.TP
+- Pink gems
+Gives energy to your ship. If your energy is at the maximum level, this gem will give you a full blast that destroys all enemies currently on the screen.
+.TP
+- Blue gems
+They multiply the score points for each destroyed enemy by 2. If you get the blue gem again, the score points are multiplied by 4; you can see the "2x" or "4x" blinking at the sidebar.
+.TP
+- Yellow gems
+These give you protection balls. If you already have six protection balls and you get another yellow gem, you will get a special weapon!
+.SH CHANGING SHIPS
+When you get a better ship, you will be able to accumulate more energy, becoming more resistant to attacks. But whenever you "upgrade" your ship, a few things will happen:
+.TP
+- Protection
+You will lose all your protection balls (let's say they're not "compatible" with your new ship).
+.TP
+- Weapons
+You will lose one "degree" in your weapons (if you had used green gems to get the best possible weapon for shooting straight forward, for example, after upgrading your ship you will have to get one more green gem if you want your weapons at the maximum power.)
+.TP
+- Score
+If your score was getting multiplied by 2 or 4, it won't be anymore (go get more blue gems!)
+.SH KEYS
+In the main menu, use the arrow keys and enter. To play the game, use the arrow keys to move, space for shooting and control to pick a selected option.
+.P
+Also:
+.P
+ CTRL+S           enable/disable the music
+ CTRL+Q           finish the play current
+ CTRL+A           about Powermanga
+ ALT+F4           quit Powermanga
+ P or Pause/Break enable/disable pause
+ F or F11         switch between full screen and windowed mode
+ PAGE UP          volume up
+ PAGE DOWN        volume down
+.SH OPTIONS
+Valid command line options:
+.TP
+.B \-h, --help
+prints help message and exit
+.TP
+.B \--version
+prints version information and exit
+.TP
+.B \--window
+windowed mode (full screen by default)
+.TP
+.B \--2x
+scale2x effects which scale the image of 2x 
+.TP
+.B \--3x
+scale3x effects which scale the image of 3x 
+.TP
+.B \--4x
+scale4x effects which scale the image of 4x 
+.TP
+.B \--320
+the game will run in a 320*200 window
+.TP
+.B \--fullscreen
+the game will run in full screen 
+.TP
+.B \-v
+verbose mode
+.TP
+.B \--verbose
+verbose mode (with more messages)
+.TP
+.B \--nosound
+disable sound
+.TP
+.B \--sound
+enable sound
+.TP
+.B \--nosync
+disable timer
+.TP
+.B \--easy
+make the game easier by giving more bonuses
+.TP
+.B \--hard
+make the game harder
+.SH FILES
+.B /usr/share/games/powermanga/graphics/
+.br
+.RS
+Graphics files.
+.RE
+.B /usr/share/games/powermanga/data/
+.br
+.RS
+Levels and data files.
+.RE
+.B /usr/share/games/powermanga/sound/
+.br
+.RS
+Sound files.
+.RE
+.B /usr/share/games/powermanga/texts/
+.br
+.RS
+Texts files.
+.RE
+.SH ENVIRONMENT
+.TP
+.B HOME
+Used to search for graphics and sounds.
+.SH AUTHOR
+Powermanga - Copyright TLK Games. You are free to redistribute
+and/or change it under the terms of the GNU General Public License. See the
+.I /usr/share/doc/powermanga/copyright
+for details.
+.br
+This manual page was written by Jeronimo Pellegrini <pellegrini@mpcnet.com.br>, based on the previous one by Sam Hocevar <sam@zoy.org>, for the Debian GNU/Linux system (but may be used by others).
