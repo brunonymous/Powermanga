@@ -1,0 +1,93 @@
+body {
+	background-color: #369;
+	color: #fff;
+	font-family: "Trebuchet MS", Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size:small;
+	margin: 2em 1%;
+	padding:0;
+}
+
+div.table table {
+	border: none;
+}
+
+div.table table td {
+	border-style: dotted;
+	border-color: #c0eeff;
+}
+
+h2.title {
+	color: #124f7f;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: medium;
+	font-weight: 700;
+}
+
+
+div.section h1.title {
+	color: #124f7f;
+	background-color: transparent;
+	font-size: medium;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+div.article h1.title {
+	color: #124f7f;
+	background-color: transparent;
+	font-size: xx-large;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+
+div.section {
+	color: #000;
+	background-color: #fff;
+	background-image: url(images/tlktop.png);
+	background-position: top right;
+	background-repeat: no-repeat;
+	border: 2px solid #000;
+	line-height: 140%;
+	margin: 0 3% 2em 3%;
+	padding: 0 2% 3em 2%;
+}
+
+
+div.article {
+	color: #000;
+	background-color: #fff;
+	line-height: 150%;
+	border: 2px solid #000;
+	margin: 0 6% 2em 6%;
+	padding: 0 2% 3em 2%;
+}
+
+
+div.titlepage{
+    color: #124f7f;
+    margin: -0.2em;
+    padding: -0.2em;
+    background-color: transparent;
+    border-color: #69c;
+    width: 55%;
+}
+
+img {
+	border: 0;
+}
+
+hr {
+    height: 1px; width: 100%;
+}
+
+dt a {
+    text-decoration: none;
+    color: #369;
+    padding-left:1em;
+}
+
+dt a:hover {
+    background-color: #c0eeff;
+    color: #036;
+}
