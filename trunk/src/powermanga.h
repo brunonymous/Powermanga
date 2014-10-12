@@ -27,9 +27,9 @@
 #ifndef __POWERMANGA__
 #define __POWERMANGA__
 #if !defined(PACKAGE_STRING)
-#define PACKAGE_STRING "Powermanga 0.93"
+#define PACKAGE_STRING "Powermanga 0.93.1"
 #endif
-#define POWERMANGA_VERSION PACKAGE_STRING " (2014-09-20) "
+#define POWERMANGA_VERSION PACKAGE_STRING " 2014-10-12 "
 
 #if !defined(POWERMANGA_SDL) && !defined(POWERMANGA_X11)
 #define POWERMANGA_SDL

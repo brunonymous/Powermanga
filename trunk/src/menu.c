@@ -1,7 +1,7 @@
 /**
  * @file menu.c
  * @brief Handle the main menu of Powermanga
- * @date 2011-02-26
+ * @date 2014-10-12 
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
@@ -489,6 +489,7 @@ init_new_game (void)
   option_change = TRUE;
   bonus_init ();
   spaceship_show ();
+  starfield_speed = 2.0;
   /* disable congratulations */
   is_congratulations_enabled = FALSE;
 }

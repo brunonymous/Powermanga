@@ -2,7 +2,7 @@
  * @file menu.h 
  * @brief handle displaying and updating the graphical components of the game 
  * @created 2006-12-07 
- * @date 2011-02-17 
+ * @date 2014-10-12 
  */
 /* 
  * copyright (c) 1998-2014 TLK Games all rights reserved
@@ -51,6 +51,7 @@ extern "C"
 
   extern Sint32 menu_status;
   extern Sint32 menu_coord_y;
+  extern float starfield_speed;
 #ifdef __cplusplus
 }
 #endif

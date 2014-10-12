@@ -1,3 +1,12 @@
+2014-10-12
+Powermanga 0.93.1
+- Fixes the speed of the stars after a new game that follows congratulation.
+- Clears all gems after the final boss. Thanks to Josh Triplett for the report
+  (Debian #764009)
+- Disable insecure temporary file "/tmp/powermanga-log.txt". Thanks to 
+  Josh Triplett for the report (Debian #764144)
+ - Translation of the man page in French.
+
 2014-09-20
 Powermanga 0.93
 - Fix man page: The option to play the game in fullscreen mode
@@ -6,7 +15,9 @@ Powermanga 0.93
   (Patch Debian)
 - Fix configure.ac: Add custom CFLAGS (Patch Debian)
 - Fix segmentation fault in the About menu (English version) 
-- Fix Debian bug #561670 (D-pad won't move the ship straight left)
+- Fixes wrong joystick behaviour in display_sdl.c and allows the ship to move
+  to the left side again. Thanks to Kalle Olavi Niemitalo for the report
+  (Debian ##561670)
 - Allow compilation with Clang
 
 2014-08-19

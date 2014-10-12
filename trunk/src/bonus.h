@@ -2,7 +2,7 @@
  * @file bonus.h 
  * @brief Handle gems, bonus and penality 
  * @created 2006-11-19 
- * @date 2012-08-26
+ * @date 2014-10-11 
  */
 /* 
  * copyright (c) 1998-2014 TLK Games all rights reserved
@@ -40,6 +40,7 @@ extern "C"
   bool bonus_once_init (void);
   void bonus_init (void);
   void bonus_free (void);
+  void bonus_disable_all (void);
   void bonus_handle (void);
   void bonus_add (const enemy * const pve);
   void bonus_meteor_add (const enemy * const pve);
