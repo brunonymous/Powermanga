@@ -1,7 +1,7 @@
 /** 
  * @file bonus.c 
  * @brief Handle gems, bonus and penality 
- * @date 2012-08-26 
+ * @date 2014-10-12
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  * @author Laurent Duperval
@@ -221,6 +221,26 @@ bonus_free (void)
     }
 }
 
+/*
+ * Disables all gems on the screen
+ */
+void
+bonus_disable_all (void)
+{
+  gem_str *gem;
+  Sint32 i, n;
+  gem = gem_first;
+  if (gem == NULL)
+    {
+      return;
+    }
+  n = num_of_gems;
+  for (i = 0; i < n; i++, gem = gem->next)
+    {
+     bonus_del_gem (gem);
+    }
+}
+
 /**
  * Animate, move and draw the gems
  */
@@ -228,13 +248,14 @@ void
 bonus_handle (void)
 {
   gem_str *gem;
-  Sint32 i;
+  Sint32 i, n;
   gem = gem_first;
   if (gem == NULL)
     {
       return;
     }
-  for (i = 0; i < num_of_gems; i++, gem = gem->next)
+  n = num_of_gems;
+  for (i = 0; i < n; i++, gem = gem->next)
     {
 
 #ifdef UNDER_DEVELOPMENT

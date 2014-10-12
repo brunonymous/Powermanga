@@ -2,7 +2,7 @@
  * @file log_recorder.c 
  * @brief Records log messages  
  * @created 2009-02-21 
- * @date 2012-08-26 
+ * @date 2014-10-12
  * @author Bruno Ethvignot
  */
 /*
@@ -31,11 +31,15 @@
 #include <time.h>
 
 #if defined(POWERMANGA_LOG_ENABLED)
+#if defined(UNDER_DEVELOPMENT)
+#define ENABLE_LOG_FILE
+#endif
 
 const Uint32 LOG_MESSAGE_SIZE = 1536;
 const Uint32 LOG_OUTPUT_SIZE = 2048;
-
+#if defined(ENABLE_LOG_FILE)
 static FILE *log_fstream = NULL;
+#endif
 static char *buffer_message = NULL;
 static char *output_message = NULL;
 static LOG_LEVELS verbose_level = LOG_NOTHING;
@@ -76,7 +80,9 @@ log_initialize (LOG_LEVELS verbose)
 #if defined(_WIN32_WCE)
   char *pathname;
 #endif
+#if defined(ENABLE_LOG_FILE)
   const char *filename;
+#endif
   log_set_level (verbose);
 #ifndef WIN32
   if (cur_time == NULL)
@@ -114,6 +120,7 @@ log_initialize (LOG_LEVELS verbose)
         }
     }
 
+#if defined(ENABLE_LOG_FILE)
 #if !defined(_WIN32)
   filename = "/tmp/powermanga-log.txt";
 #else
@@ -145,6 +152,7 @@ log_initialize (LOG_LEVELS verbose)
 #if defined(_WIN32_WCE)
   free_memory (pathname);
 #endif
+#endif
   return TRUE;
 }
 
@@ -154,12 +162,13 @@ log_initialize (LOG_LEVELS verbose)
 void
 log_close (void)
 {
+#if defined(ENABLE_LOG_FILE)
   if (log_fstream != NULL)
     {
       fclose (log_fstream);
       log_fstream = NULL;
     }
-
+#endif
   if (buffer_message != NULL)
     {
       free_memory (buffer_message);
@@ -188,7 +197,8 @@ log_close (void)
  * @param format The format string to be appended to the log
  * @param ... The arguments to use to fill out format 
  */
-void
+#if defined(ENABLE_LOG_FILE)
+static void
 log_write (LOG_LEVELS level, const char *filename, Sint32 line_num,
            const char *function, const char *message)
 {
@@ -246,6 +256,7 @@ log_write (LOG_LEVELS level, const char *filename, Sint32 line_num,
       fprintf (stderr, "log_recorder.c/log_write()" "fwrite() failed!\n");
     }
 }
+#endif
 
 /**
  * Log messages to the screen
@@ -256,7 +267,7 @@ log_write (LOG_LEVELS level, const char *filename, Sint32 line_num,
  * @param format The format string to be appended to the log
  * @param ... The arguments to use to fill out format 
  */
-void
+static void
 log_put (LOG_LEVELS level, const char *filename, Sint32 line_num,
          const char *function, const char *message)
 {
@@ -287,7 +298,7 @@ log_put (LOG_LEVELS level, const char *filename, Sint32 line_num,
  * @param format The format string to be appended to the log
  * @param ... The arguments to use to fill out format 
  */
-void
+static void
 write_log (LOG_LEVELS level, const char *filename,
            Sint32 line_num, const char *function,
            const char *format, va_list args)
@@ -307,7 +318,9 @@ write_log (LOG_LEVELS level, const char *filename,
       return;
     }
   buffer_message[msg_len] = 0;
+#if defined(ENABLE_LOG_FILE)
   log_write (level, filename, line_num, function, buffer_message);
+#endif
   /* put the message in the console */
   log_put (level, filename, line_num, function, buffer_message);
 }

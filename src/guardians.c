@@ -2,7 +2,7 @@
  * @file guardians.c 
  * @brief handle the guardians 
  * @created 1998-04-21
- * @date 2012-08-25 
+ * @date 2014-10-11 
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
@@ -694,6 +694,7 @@ guardian_new (Uint32 guardian_num)
       result = guardian_14_init ();
       break;
     case 15:
+      bonus_disable_all ();
       congratulations_initialize ();
       break;
     default:
