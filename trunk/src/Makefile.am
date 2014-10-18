@@ -14,6 +14,8 @@ install-data-hook:
 	-chown root:games "$(DESTDIR)/$(gamesdir)/powermanga"
 	-chmod 2755 "$(DESTDIR)/$(gamesdir)/powermanga"
 	$(INSTALL) -d $(DESTDIR)/$(scoredir)
+	$(INSTALL) -d $(DESTDIR)/$(mandir)/fr/man6/
+	$(INSTALL) -c -m 644 ../man/powermanga.fr.6 $(DESTDIR)/$(mandir)/fr/man6/powermanga.6
 	-for suffix in "-easy" "" "-hard"; do \
 	  touch "$(DESTDIR)/$(scoredir)/$(score)$$suffix"; \
 	  chown root:games "$(DESTDIR)/$(scoredir)/$(score)$$suffix"; \
