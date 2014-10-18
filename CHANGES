@@ -1,4 +1,4 @@
-2014-10-12
+2014-10-18
 Powermanga 0.93.1
 - Fixes the speed of the stars after a new game that follows congratulation.
 - Clears all gems after the final boss. Thanks to Josh Triplett for the report
@@ -6,6 +6,8 @@ Powermanga 0.93.1
 - Disable insecure temporary file "/tmp/powermanga-log.txt". Thanks to 
   Josh Triplett for the report (Debian #764144)
 - Translation of the man page in French.
+- Fix file permissions in HTML directory. Thanks to  nemysisbsd for
+  the report.
 
 2014-09-20
 Powermanga 0.93
