@@ -8,7 +8,7 @@
  * @author Bruno Ethvignot
  */
 /* 
- * copyright (c) 1998-2008 TLK Games all rights reserved
+ * copyright (c) 1998-2015 TLK Games all rights reserved
  * $Id: assembler.S,v 1.8 2009/01/08 20:54:08 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

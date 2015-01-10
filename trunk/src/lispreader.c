@@ -2,7 +2,7 @@
  * @file lispreader.c 
  * @brief Parse configuration file 
  * @created 2007-06-15
- * @date 2012-08-26 
+ * @date 2015-01-10 
  * @author Mark Probst 
  * @author Ingo Ruhnke <grumbel@gmx.de>
  * @author Bruno Ethvignot
@@ -10,7 +10,7 @@
 /*
  * copyright (c) 1998-2000 Mark Probst
  * copyright (c) 2002 Ingo Ruhnke <grumbel@gmx.de>
- * copyright (c) 2007-2012 TLK Games all rights reserved
+ * copyright (c) 2007-2015 TLK Games all rights reserved
  * $Id: lispreader.c,v 1.19 2012/08/26 15:44:26 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -815,7 +815,7 @@ lisp_dump (lisp_object_t * obj, FILE * out)
  * @param name String representing the attribute name
  * @return Pointer to a lisp_object_t object 
  */
-static lisp_object_t *
+lisp_object_t *
 search_for (lisp_object_t * lst, const char *name)
 {
   lisp_object_t *cur;
@@ -839,6 +839,20 @@ search_for (lisp_object_t * lst, const char *name)
       cursor = lisp_cdr (cursor);
     }
   return NULL;
+}
+
+
+lisp_object_t *
+lisp_car_int (lisp_object_t * lst, Sint32 * i)
+{
+  if (!lisp_cons_p (lst) || !lisp_integer_p (lisp_car (lst)))
+    {
+      LOG_ERR ("LispReader expected integer at head of list");
+      return NULL;
+    }
+
+  *i = lisp_integer (lisp_car (lst));
+  return lisp_cdr (lst);;
 }
 
 /**

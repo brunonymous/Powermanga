@@ -7,7 +7,7 @@
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2014 TLK Games all rights reserved
+ * copyright (c) 1998-2015 TLK Games all rights reserved
  * $Id: starfield.h,v 1.13 2012/06/03 17:06:15 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

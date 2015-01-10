@@ -2,11 +2,11 @@
  * @file config_file.c 
  * @brief Handle configuratio file 
  * @created 2005-12-12 
- * @date 2013-08-17
+ * @date 2015-01-10
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2014 TLK Games all rights reserved
+ * copyright (c) 1998-2015 TLK Games all rights reserved
  * $Id: config_file.c,v 1.30 2012/08/26 19:16:07 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -81,6 +81,11 @@ configfile_reset_values ()
     }
 #endif
   power_conf->extract_to_png = FALSE;
+  power_conf->joy_x_axis = 0;
+  power_conf->joy_y_axis = 1;
+  power_conf->joy_fire = 0;
+  power_conf->joy_option = 1;
+  power_conf->joy_start = 2;
 }
 
 /** 
@@ -91,11 +96,13 @@ configfile_print (void)
 {
   LOG_INF ("fullscreen: %i; nosound: %i; resolution: %i; "
            "verbose: %i; difficulty: %i; lang: %s; scale_x: %i"
-           " ;nosync: %i",
+           "; joy_config %i %i %i %i %i; nosync: %i",
            power_conf->fullscreen, power_conf->nosound,
            power_conf->resolution, power_conf->verbose,
            power_conf->difficulty, lang_to_text[power_conf->lang],
-           power_conf->scale_x, power_conf->nosync);
+           power_conf->scale_x, power_conf->joy_x_axis,
+           power_conf->joy_y_axis, power_conf->joy_fire,
+           power_conf->joy_option, power_conf->joy_start, power_conf->nosync);
 }
 
 /** 
@@ -190,7 +197,7 @@ configfile_load (void)
 #if !defined(_WIN32_WCE)
   Uint32 length;
 #endif
-  lisp_object_t *root_obj, *lst;
+  lisp_object_t *root_obj, *lst, *sub;
   char *str;
   /* allocate config structure */
   if (power_conf == NULL)
@@ -304,7 +311,21 @@ configfile_load (void)
     {
       power_conf->resolution = 640;
     }
+  sub = search_for (lst, "joy_config");
+  if (sub)
+    sub = lisp_car_int (sub, &power_conf->joy_x_axis);
+  if (sub)
+    sub = lisp_car_int (sub, &power_conf->joy_y_axis);
+  if (sub)
+    sub = lisp_car_int (sub, &power_conf->joy_fire);
+  if (sub)
+    sub = lisp_car_int (sub, &power_conf->joy_option);
+  if (sub)
+    sub = lisp_car_int (sub, &power_conf->joy_start);
   lisp_free (root_obj);
+
+configfile_print();
+
   return TRUE;
 }
 
@@ -341,6 +362,12 @@ configfile_save (void)
 
   fprintf (config, "\n\t;; scale_x (1, 2, 3 or 4):\n");
   fprintf (config, "\t(scale_x   %d)\n", power_conf->scale_x);
+
+  fprintf (config,
+           "\n\t;; joy_config x_axis y_axis fire_button option_button start_button):\n");
+  fprintf (config, "\t(joy_config %d %d %d %d %d)\n", power_conf->joy_x_axis,
+           power_conf->joy_y_axis, power_conf->joy_fire,
+           power_conf->joy_option, power_conf->joy_start);
 
   fprintf (config,
            "\n\t;; verbose mode 0 (disabled), 1 (enable) or 2 (more messages)\n");
@@ -414,7 +441,12 @@ configfile_scan_arguments (Sint32 arg_count, char **arg_values)
                    "-x             extract sprites in PNG format and exit\n"
                    "--320          game run in a 320*200 window (slow machine)\n"
                    "--2x           scale2x\n"
-                   "--3x           scale3x\n" "--4x           scale4x\n");
+                   "--3x           scale3x\n" "--4x           scale4x\n"
+                   "--joyconfig x,y,f,o,s\n"
+                   "               use the indicated joystick axes and buttons for the\n"
+                   "               x-axis, y-axis, fire button, option button, and start button,\n"
+                   "               respectively.  The following argument must be 5 integers\n"
+                   "               seperated by commas.  The default is 0,1,0,1,2\n");
 #ifdef POWERMANGA_SDL
           fprintf (stdout, "--window       windowed mode\n");
           fprintf (stdout, "--fullscreen   fullscreen mode\n");
@@ -452,7 +484,7 @@ configfile_scan_arguments (Sint32 arg_count, char **arg_values)
         {
           printf (POWERMANGA_VERSION);
           printf ("\n");
-          printf ("copyright (c) 1998-2013 TLK Games\n");
+          printf ("copyright (c) 1998-2015 TLK Games\n");
           printf ("website: http://linux.tlk.fr/\n");
           return FALSE;
         }
@@ -499,6 +531,24 @@ configfile_scan_arguments (Sint32 arg_count, char **arg_values)
         {
           power_conf->scale_x = 4;
           power_conf->resolution = 640;
+          continue;
+        }
+
+
+      /* Joystick configuration */
+      if (!strcmp (arg_values[i], "--joyconfig"))
+        {
+          if (sscanf (arg_values[++i], "%d,%d,%d,%d,%d",
+                      &power_conf->joy_x_axis,
+                      &power_conf->joy_y_axis,
+                      &power_conf->joy_fire,
+                      &power_conf->joy_option, &power_conf->joy_start) != 5)
+            {
+              LOG_ERR
+                ("Invalid joystick configuration, expecting 5 integers seperated by commas, found %s",
+                 arg_values[i]);
+              return FALSE;
+            }
           continue;
         }
 

@@ -2,7 +2,7 @@
  * @file lispreader.h 
  * @brief Parse configuration file 
  * @created 2007-06-15
- * @date 2012-08-26 
+ * @date 2015-01-10 
  * @author Mark Probst 
  * @author Ingo Ruhnke <grumbel@gmx.de>
  * @author Bruno Ethvignot
@@ -10,7 +10,7 @@
 /*
  * copyright (c) 1998-2000 Mark Probst
  * copyright (c) 2002 Ingo Ruhnke <grumbel@gmx.de>
- * copyright (c) 2007-2012 TLK Games all rights reserved
+ * copyright (c) 2007-2015 TLK Games all rights reserved
  * $Id: lispreader.h,v 1.4 2012/08/26 17:09:14 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -100,6 +100,8 @@ extern "C"
     } v;
   };
 
+  lisp_object_t *search_for (lisp_object_t * lst, const char *name);
+  lisp_object_t *lisp_car_int (lisp_object_t * lst, Sint32 * i);
   bool lisp_read_int (lisp_object_t * lst, const char *name, Sint32 * i);
   bool lisp_read_bool (lisp_object_t * lst, const char *name, bool * b);
   bool lisp_read_string (lisp_object_t * lst, const char *name, char **str);
