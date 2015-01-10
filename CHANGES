@@ -1,4 +1,4 @@
-2014-10-18
+2015-01-10
 Powermanga 0.93.1
 - Fixes the speed of the stars after a new game that follows congratulation.
 - Clears all gems after the final boss. Thanks to Josh Triplett for the report
@@ -8,6 +8,8 @@ Powermanga 0.93.1
 - Translation of the man page in French.
 - Fix file permissions in HTML directory. Thanks to  nemysisbsd for
   the report.
+- Allows the joystick to be configured either from the command line or
+  from the config file. Thanks to Maurerp for the patch.
 
 2014-09-20
 Powermanga 0.93

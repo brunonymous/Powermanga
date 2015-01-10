@@ -6,7 +6,7 @@
  * @author Bruno Ethvignot
  */
 /* 
- * copyright (c) 1998-2014 TLK Games all rights reserved
+ * copyright (c) 1998-2015 TLK Games all rights reserved
  * $Id: enemies.c,v 1.48 2012/08/26 15:44:26 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify

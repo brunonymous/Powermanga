@@ -2,11 +2,11 @@
  * @file display_sdl.c
  * @brief handle displaying and updating the graphical components of the game
  * @created 2003-07-09
- * @date 2014-09-07 
+ * @date 2015-01-10 
  * @author Bruno Ethvignot
  */
 /*
- * copyright (c) 1998-2014 TLK Games all rights reserved
+ * copyright (c) 1998-2015 TLK Games all rights reserved
  * $Id: display_sdl.c,v 1.44 2012/08/26 19:30:40 gurumeditation Exp $
  *
  * Powermanga is free software; you can redistribute it and/or modify
@@ -1007,7 +1007,7 @@ display_handle_events (void)
           {
             Sint32 deadzone = 4096;
             /* x axis */
-            if (event.jaxis.axis == 0)
+            if (event.jaxis.axis == power_conf->joy_x_axis)
               {
                 if (event.jaxis.value < -deadzone)
                   {
@@ -1030,7 +1030,7 @@ display_handle_events (void)
                   }
               }
             /* y axis */
-            else if (event.jaxis.axis == 1)
+            else if (event.jaxis.axis == power_conf->joy_y_axis)
               {
                 if (event.jaxis.value < -deadzone)
                   {
@@ -1058,16 +1058,16 @@ display_handle_events (void)
 #ifdef POWERMANGA_HANDHELD_CONSOLE
           display_handle_console_buttons (&event);
 #else
-          if (event.jbutton.button == 2)
+          if (event.jbutton.button == power_conf->joy_start)
             {
               start_button_down = TRUE;
             }
-          else if (event.jbutton.button == 0)
+          else if (event.jbutton.button == power_conf->joy_fire)
             {
               fire_button_down = TRUE;
               sprites_string_set_joy (IJOY_FIRE);
             }
-          else if (event.jbutton.button == 1)
+          else if (event.jbutton.button == power_conf->joy_option)
             {
               option_button_down = TRUE;
               sprites_string_set_joy (IJOY_OPT);
@@ -1078,16 +1078,16 @@ display_handle_events (void)
 #ifdef POWERMANGA_HANDHELD_CONSOLE
           display_handle_console_buttons (&event);
 #else
-          if (event.jbutton.button == 2)
+          if (event.jbutton.button == power_conf->joy_start)
             {
               start_button_down = FALSE;
             }
-          else if (event.jbutton.button == 0)
+          else if (event.jbutton.button == power_conf->joy_fire)
             {
               fire_button_down = FALSE;
               sprites_string_clr_joy (IJOY_FIRE);
             }
-          else if (event.jbutton.button == 1)
+          else if (event.jbutton.button == power_conf->joy_option)
             {
               option_button_down = FALSE;
               sprites_string_clr_joy (IJOY_OPT);
