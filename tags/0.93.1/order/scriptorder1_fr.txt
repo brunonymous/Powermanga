@@ -1,0 +1,107 @@
+﻿
+FONTES
+{
+	FONTE0
+	{
+		FICHIER="tlk.fnt"
+		SIZE=38
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+	}
+
+	FONTE1
+	{
+		FICHIER="tlk.fnt"
+		SIZE=40
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE2
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE3
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+		GRAS
+	}
+
+	FONTE4
+	{
+		FICHIER="tlk.fnt"
+		SIZE=52
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+		GRAS
+	}
+
+}
+
+BITMAPS
+{
+	FOND
+	{
+		CLOUDS=(37,57,138,16,16)
+	}
+
+	SCREENSHOT1
+	{
+		FICHIER="screen0.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+	SCREENSHOT2
+	{
+		FICHIER="screen1.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+}
+
+COMPOSITION
+{
+	ETIRER=FOND (0,0)
+	CARREDEGRADE=COULEUR(168,0,20) (19,260) (980,430)
+	BITMAP=SCREENSHOT1 (13,12)
+	TEXTE=FONTE3 (276,6) "Bravo!"
+	TEXTE=FONTE0 (372,13) "Depuis que vous l'avez installé sur votre ordinateur, vous avez déjà joué"
+	TEXTE=FONTE0 (306,42) "fois avec la version shareware de 3D Card Games Unlimited."
+	TEXTE=FONTE0 (276,72) "Puisque vous aimez bien ce jeu, nous vous encourageons vivement à l'enregistrer."
+	TEXTE=FONTE0 (276,103) "Vous recevrez la version finale complète du jeu 3D Card Games Unlimited pour seulement"
+	TEXTE=FONTE4 (276,126) "6"
+	TEXTE=FONTE1 (295,133) ",95 Euros"
+	TEXTE=FONTE0 (385,135) "(ou son équivalent dans une autre monnaie). Ce qui vous donnera"
+	TEXTE=FONTE0 (276,166) "En vous procurant la version finale, vous accèderez aux autres modes de jeux"
+	TEXTE=FONTE0 (276,197) "disponibles et leurs nombreuses variantes. La formidable possibilité de"
+	TEXTE=FONTE0 (276,225) "jouer à plusieurs en réseau local ou sur Internet avec d'autres partenaires."
+	TEXTE=FONTE1 (58,266) "Vous obiendrez ainsi la garantie à vie de disposer de toutes les futures mises à jour du jeu enregistré."
+	TEXTE=FONTE3 (49,299) "Pour télécharger la version enregistrée et jouer immédiatement :"
+	TEXTE=FONTE3 (65,348) "1."
+	TEXTE=FONTE1 (90,353) " Venez sur le site www.TLKGAMES.com, sélectionnez votre jeu et cliquez sur le panier."
+	TEXTE=FONTE1 (97,398) "Passez votre commande sécurisée, vérifiez la et validez."
+	TEXTE=FONTE3 (65,393) "2."
+	TEXTE=FONTE1 (96,441) "Dès acceptation de votre règlement,vous recevrez immédiatement dans votre boite à lettre un"
+	TEXTE=FONTE3 (65,436) "3."
+	TEXTE=FONTE1 (97,469) "lien pour télécharger votre jeu ainsi que la facture. "
+	TEXTE=FONTE0 (51,519) "Merci d'enregistrer votre jeu. Votre participation est essentielle pour notre entreprise et nous permet de"
+	TEXTE=FONTE0 (51,553) "continuer à développer de nouvelles fonctionnalités et de nouveaux jeux."
+	TEXTE=FONTE0 (51,586) "N'hésitez-pas à nous contacter à"
+	TEXTE=FONTE1 (330,585) "info@tlkgames.com"
+	TEXTE=FONTE0 (504,586) ". Votre opinion compte réellement pour nous et"
+	TEXTE=FONTE0 (51,621) "nous répondons à tous les messages reçus."
+	TEXTE=FONTE0 (179,691) "Et même si vous décidez de ne pas vous enregistrer, partagez le plaisir de jouer avec vos amis."
+	TEXTE=FONTE0 (368,722) "Envoyez leur l'adresse de notre site Internet"
+	TEXTE=FONTE1 (749,721) "http://www.tlkgames.com"
+	NBLAUNCH=FONTE0 (276,42)
+	COMPTEUR=(25,688)
+}

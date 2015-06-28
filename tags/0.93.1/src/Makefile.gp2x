@@ -1,0 +1,81 @@
+#
+# PowerManga GP2X make file
+#
+
+CROSS_COMPILE = /usr/local/gp2xdev/bin/gp2x-
+
+SDL_CFLAGS = `/usr/local/gp2xdev/bin/sdl-config --cflags`
+SDL_LIBS = `/usr/local/gp2xdev/bin/sdl-config --libs`
+
+CXX = $(CROSS_COMPILE)g++
+CC = $(CROSS_COMPILE)gcc
+LD = $(CROSS_COMPILE)ld
+STRIP = $(CROSS_COMPILE)strip
+
+CCFLAGS := -std=c99 -Wall -Wshadow -O2 -mcpu=arm920 -mtune=arm920t -fstrict-aliasing -DPOWERMANGA_GP2X
+CCFLAGS += -I/usr/local/gp2xdev/include/ $(SDL_CFLAGS) $(DEFINES)
+
+LIBS := -lSDL_mixer -lmad -lvorbisidec
+
+TARGET = powermanga.gpe
+SRC = bonus.c \
+  counter_shareware.c \
+  congratulations.c \
+  config_file.c \
+  curve_phase.c \
+  display.c \
+  display_sdl.c \
+  display_x11.c \
+  electrical_shock.c \
+  enemies.c \
+  energy_gauge.c \
+  explosions.c \
+  extra_gun.c \
+  gfx_wrapper.c \
+  grid_phase.c \
+  guardians.c \
+  images.c \
+  inits_game.c \
+  lispreader.c \
+  lonely_foes.c \
+  main.c \
+  menu.c \
+  menu_sections.c \
+  meteors_phase.c \
+  movie.c \
+  options_panel.c \
+  powermanga.c \
+  scalebit.c \
+  scale2x.c \
+  scale3x.c \
+  sdl_mixer.c \
+  satellite_protections.c \
+  scrolltext.c \
+  spaceship.c \
+  spaceship_weapons.c \
+  special_keys.c \
+  sprites_string.c \
+  shots.c \
+  shockwave.c \
+  script_page.c \
+  starfield.c \
+  text_overlay.c \
+  texts.c \
+  tools.c 
+
+all : $(TARGET)
+
+OBJS = $(SRC:.c=.o)
+DEPS = $(SRC:.c=.d)
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) -static -s -lm -o $@ $(OBJS) $(LIBS) $(SDL_LIBS)
+	$(STRIP) $(TARGET)
+
+.c.o:
+	$(CC) $(CCFLAGS) -MMD -c $< -o $*.o
+
+clean:
+	rm -f $(TARGET) *.o *.d
+
+-include $(DEPS)

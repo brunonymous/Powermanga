@@ -1,0 +1,148 @@
+.TH POWERMANGA 6 2014-10-12
+.SH NAME
+powermanga \- shoot\-'em\-up game
+.SH SYNOPSIS
+.B powermanga "[OPTIONS]"
+.SH DESCRIPTION
+Powermanga est un jeu vidéo de type shoot them up dans lequel vous aurez à affronter plus de soixante types d'ennemis différents.
+.P
+Vous débutez avec un vaisseau, et des ennemis arrivent en vous lançant des bombes. Canardez-les et améliorez l'armement de votre vaisseau (sinon, vous ne risquez pas d'aller bien loin !)
+.P
+Pour améliorer votre armement, vous devez récupérer des gemmes vertes et rouges. Lorsque vous récoltez une gemme verte, l'option sélectionnée sur le côté droit de l'écran augmente d'une unité.
+.P
+Les options vont de bas en haut.
+.TP
+- Augmentation de la vitesse 
+.TP
+- Augmentation de l'énergie de votre vaisseau
+Si vous n'avez plus d'énergie, vous perdez votre vaisseau. Perdre votre vaisseau peut signifier soit retourner au vaisseau que vous utilisiez avant que vous ne changiez de vaisseau ou soit mourir si vous c'est votre premier vaisseau. Vous pouvez vérifier votre niveau d'énergie dans la petite barre en haut (votre barre est celle de droite ; celle qui est à gauche est celle de votre ennemi, dans le cas où vous en affrontez un gros). 
+.TP
+- Plusieurs options pour différentes armes. 
+.TP
+- La dernière option vous procure un meilleur vaisseau. 
+.P
+Si l'option en cours est « augmenter la puissance tu tir latéral gauche », par exemple, vous pouvez la sélectionner et elle sera prise en compte immédiatement.
+.P
+Si l'option en cours est la dernière, et que vous récupérez une gemme verte ou rouge, vous revenez à la première option (mais vous obtiendrez un canon supplémentaire sur le côté de votre vaisseau). De la même façon, chaque fois que vous choisissez une option, la première option redevient celle sélectionnée.
+.SH Les gemmes 
+Pendant le jeu, vous verrez parfois une gemme apparaître quand un ennemi sera détruit. Vous pouvez récupérer ces gemmes : 
+.TP
+- Les gemmes vertes 
+Comme nous l'avons déjà dit, permet de progresser d’un niveau dans les options disponibles. 
+.TP
+- Les gemmes rouges 
+Similaire à la gemme verte, mais permet de progresser de deux au lieu de un.
+
+.TP
+- Gemmes roses 
+Restaure l'énergie à votre vaisseau. Si votre énergie est au niveau maximum, cette gemme vous donnera une onde de choc détruisant tous les ennemis actuellement à l'écran.
+.TP
+- Gemmes bleues
+Elles multiplient les points pour chaque ennemi détruit par deux. Si vous récupérez à nouveau une gemme bleue, les points seront multipliés par quatre ; vous pouvez voir « 2x » ou « 4x » clignoter dans la barre latérale.
+.TP
+- Gemmes jaunes
+Elles vous procurent des modules de protection en orbite autour de votre vaisseau. Si vous avez déjà six modules de protection et que vous obtenez une autre gemme jaune, vous obtiendrez une arme spéciale !
+.SH CHANGEMENT DE VAISSEAUX
+Lorsque vous obtenez un meilleur vaisseau, vous serez en mesure d'accumuler plus d'énergie, d'être plus résistant aux attaques. Mais chaque fois que vous « mettrez à niveau » de votre vaisseau, un certain nombre de choses vont se produire :
+.TP
+- Protection
+Vous perdrez tous vos modules de protection (disons qu'elles ne sont pas « compatible » avec votre nouveau vaisseau).
+.TP
+- Armement
+Vous allez perdre un « degré » dans votre armement (si vous aviez utilisé des gemmes vertes pour obtenir le meilleur tir frontal simple, par exemple, après la mise à niveau de votre vaisseau, vous devrez récupérer une gemme verte supplémentaire, si vous voulez que votre tir revienne à sa puissance maximale).
+.TP
+- Score
+Si votre score était multiplié par deux ou quatre, il ne le sera plus (aller chercher d'autres gemmes bleues !)
+.SH Clavier 
+Dans le menu principal, utilisez les touches fléchées et Entrée. Pour jouer au jeu, utilisez les touches fléchées pour vous déplacer, la barre d'espace pour tirer et la touche Control pour choisir une option sélectionnée.
+.P
+Également :
+.P
+ CTRL + S         activer ou désactiver la musique 
+ CTRL + Q         termine la partie en cours 
+ CTRL + A         à propos de Powermanga
+ ALT + F4         quitter Powermanga
+ P ou Pause/Break activer ou désactiver la pause 
+ F ou F11         basculer entre le plein écran et le mode fenêtré
+ PAGE UP          augmenter le volume 
+ PAGE DOWN        diminuer le volume
+.SH OPTIONS
+Les options valides en ligne de commande :
+.TP
+.B \-h, --help
+affiche un message d'aide et quitte
+.TP
+.B \--version
+affiche le numéro de version et quelques informations
+.TP
+.B \--window
+le jeu se lancera en mode fenêtré (plein écran par défaut)
+.TP
+.B \--2x
+scale2x effects which scale the image of 2x 
+effet scale2x qui augmente la taille de l'image par deux
+.TP
+.B \--3x
+effet scale3x qui augmente la taille de l'image par trois 
+.TP
+.B \--4x
+effet scale4x qui augmente la taille de l'image par quatre 
+.TP
+.B \--320
+le jeu s'exécutera dans une résolution de 320x200
+.TP
+.B \--fullscreen
+le jeu se lancera en plein écran
+.TP
+.B \-v
+mode verbeux
+.TP
+.B \--verbose
+mode verbeux (avec plus de messages)
+.TP
+.B \--nosound
+désactive le son
+.TP
+.B \--sound
+active le son
+.TP
+.B \--nosync
+désactive le temporisateur
+.TP
+.B \--easy
+rend le jeu plus facile en donnant plus de bonus
+.TP
+.B \--hard
+rend le jeu plus difficile
+.SH FICHIERS 
+.B /usr/share/games/powermanga/graphics/
+.br
+.RS
+Fichiers graphiques
+.RE
+.B /usr/share/games/powermanga/data/
+.br
+.RS
+Fichiers des niveaux et des données.
+.RE
+.B /usr/share/games/powermanga/sound/
+.br
+.RS
+Fichiers sons.
+.RE
+.B /usr/share/games/powermanga/texts/
+.br
+.RS
+Fichiers textes.
+.RE
+.SH ENVIRONMENT
+.TP
+.B HOME
+Utilisé pour rechercher des graphismes et des sons.
+.SH AUTHOR
+Powermanga - Copyright TLK Games. Vous êtes libre de le redistribuer
+ou modidier selon les termes de GNU General Public License. Voir
+.I /usr/share/doc/powermanga/copyright
+pour plus de détails.
+.br
+Cette page de manuel a été rédigée par Jeronimo Pellegrini <pellegrini@mpcnet.com.br>, sur la base de la précédente par Sam Hocevar <sam@zoy.org>, pour le système Debian GNU/Linux (mais peut être utilisée par d'autres).

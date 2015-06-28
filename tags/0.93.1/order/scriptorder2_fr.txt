@@ -1,0 +1,95 @@
+﻿
+FONTES
+{
+	FONTE0
+	{
+		FICHIER="tlk.fnt"
+		SIZE=38
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+	}
+
+	FONTE1
+	{
+		FICHIER="tlk.fnt"
+		SIZE=40
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+	}
+
+	FONTE2
+	{
+		FICHIER="tlk.fnt"
+		SIZE=70
+		OMBRAGE=(1,2)
+		DEGRADE=(255,210,0)/(255,210,0)
+	}
+
+	FONTE3
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,255,255)/(255,255,255)
+		GRAS
+	}
+
+	FONTE4
+	{
+		FICHIER="tlk.fnt"
+		SIZE=50
+		OMBRAGE=(1,2)
+		DEGRADE=(255,200,0)/(255,200,0)
+		GRAS
+	}
+
+}
+
+BITMAPS
+{
+	FOND
+	{
+		CLOUDS=(37,57,138,16,16)
+	}
+
+	SCREENSHOT1
+	{
+		FICHIER="screen1.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+	SCREENSHOT2
+	{
+		FICHIER="screen2.png"
+		OMBRAGE=(4,4)
+		OUTLINE=1
+	}
+
+}
+
+COMPOSITION
+{
+	ETIRER=FOND (0,0)
+	CARREDEGRADE=COULEUR(168,0,20) (19,220) (980,430)
+	BITMAP=SCREENSHOT2 (757,18)
+	BITMAP=SCREENSHOT1 (22,20)
+	TEXTE=FONTE0 (387,18) "http://www.tlkgames.com"
+	TEXTE=FONTE4 (292,97) "Comment enregistrer votre jeu ?"
+	TEXTE=FONTE3 (71,259) "Pour télécharger la version enregistrée et jouer immédiatement :"
+	TEXTE=FONTE3 (87,308) "1."
+	TEXTE=FONTE1 (112,313) " Venez sur le site www.TLKGAMES.com, sélectionnez votre jeu et cliquez sur le panier."
+	TEXTE=FONTE1 (119,358) "Passez votre commande sécurisée, vérifiez la et validez."
+	TEXTE=FONTE3 (87,353) "2."
+	TEXTE=FONTE1 (118,401) "Dès acceptation de votre règlement,vous recevrez immédiatement dans votre boite à lettre un"
+	TEXTE=FONTE3 (87,396) "3."
+	TEXTE=FONTE1 (119,429) "lien pour télécharger votre jeu ainsi que la facture. "
+	TEXTE=FONTE0 (73,479) "Merci d'enregistrer votre jeu. Votre participation est essentielle pour notre entreprise et nous permet de"
+	TEXTE=FONTE0 (73,513) "continuer à développer de nouvelles fonctionnalités et de nouveaux jeux."
+	TEXTE=FONTE0 (73,546) "N'hésitez-pas à nous contacter à"
+	TEXTE=FONTE1 (354,545) "info@tlkgames.com"
+	TEXTE=FONTE0 (528,546) ". Votre opinion compte réellement pour nous et"
+	TEXTE=FONTE0 (73,581) "nous répondons à tous les messages reçus."
+	TEXTE=FONTE2 (24,665) "Cet enregistrement vous donne droit gratuitement à toutes les"
+	TEXTE=FONTE2 (123,705) "futures mises à jour du jeu, sans limite de temps."
+}

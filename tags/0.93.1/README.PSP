@@ -1,0 +1,16 @@
+PSP port done by Cpasjuste, Mars 2007
+
+Based off the Powermanga 0.80 source, available from
+http://linux.tlk.fr/games/Powermanga/ (GPL licensed).
+
+----------
+
+	Command : 
+		
+		- L => Music volume up
+		- R => Music volume down
+		- START => Pause
+		- SELECT => Show/hide menu
+		- CROSS => Fire
+		- SQUARE => Power item
+		- DIGITAL PAD => Move

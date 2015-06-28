@@ -1,0 +1,149 @@
+2015-06-28
+Powermanga 0.93.1
+- Fixes the speed of the stars after a new game that follows congratulation.
+- Clears all gems after the final boss. Thanks to Josh Triplett for the report
+  (Debian #764009)
+- Disable insecure temporary file "/tmp/powermanga-log.txt". Thanks to 
+  Josh Triplett for the report (Debian #764144)
+- Translation of the man page in French.
+- Fix file permissions in HTML directory. Thanks to  nemysisbsd for
+  the report.
+- Allows the joystick to be configured either from the command line or
+  from the config file. Thanks to Maurerp for the patch.
+- The __FUNCTION__ macro has been replaced by __func__ macro. ISO C does not
+  support ‘__FUNCTION__’ predefined identifier. (Debian #778072) 
+- Remove -Werror and -pedantic flags for non-test builds.
+
+2014-09-20
+Powermanga 0.93
+- Fix man page: The option to play the game in fullscreen mode
+   must be --fullscreen not --full. (Patch Debian)
+- Added keywords and a comment in German and French to the desktop file
+  (Patch Debian)
+- Fix configure.ac: Add custom CFLAGS (Patch Debian)
+- Fix segmentation fault in the About menu (English version) 
+- Fixes wrong joystick behaviour in display_sdl.c and allows the ship to move
+  to the left side again. Thanks to Kalle Olavi Niemitalo for the report
+  (Debian #561670)
+- Allow compilation with Clang
+
+2014-08-19
+Powermanga 0.92
+- Fix Debian bug #478213
+- Fix configure.ac: replace AM_CONFIG_HEADER to AC_CONFIG_HEADERS
+- Add  explicitly link with needed libm, fix Debian bug #632945
+- Fix PNG_iTXt_SUPPORTED support
+- Add italian language
+- Fix negative coordinates explosions that caused a segmentation fault.
+
+2012-08-26
+Powermanga 0.91
+- Update "configure.ac" file. 
+- Fix compilation warnings (GCC 4.6.3 and Visual Studio)
+- Fix alignment constraint (ARM and MIPS processors)
+- Adds the ability to export all the game's graphics in PNG files
+  using the command line.
+- Build test (without sound support) with Visual Studio and run
+  successfully on Windows Mobile (HTC Touch P3450) 
+- Recognizes all the joysticks connected at startup
+- Rewrites the file "music_game.zik" with Milkytracker.
+  Now the library "SDL_mixer" can read and play this module.
+- The application switches to pause when it loses focus.
+- Minor bugfixes and improvements
+
+2007-09-02
+Powermanga 0.90
+- the sounds were updated to replace non-free sounds
+- joystick support was added
+- scale2x, scale3x, and scale4x effects were added
+- the order text was changed to support both plain text and keystrokes file
+- the source code files were renamed
+- the code was considerably cleaned up and rewritten
+- comments and variables were translated to the English language
+- all C++ code was removed and the remaining code was made to conform with C99
+- the license was changed to the GPLv3
+- resources files were renamed
+- volume control was added
+- GP2X and PSP patches were merged
+- the high-score file format was changed
+
+2006-03-27
+Powermanga 0.80
+- compile with GCC 4.0.3
+- fix palette conversion in 16 bits RGB color mode (non-IA32 architecture)
+- add config file
+- add french language support
+- various bugs fixes
+- compile, run, and test the project on AMD64 (Ubuntu Dapper Drake) 
+- compile, run, and test the project on Win32 (Patrice Duhamel)
+- upload the source code on CVS (http://sourceforge.net/projects/powermanga/) 
+
+2004-08-01:
+Powermanga 0.79
+- fix some minor bugs and memory leaks (Patrice Duhamel and Jozef Behran)
+- duplicate set of cursor movement keys on the numeric keypad (modus)
+- disable F key (full screen) if input player name
+
+2003-07-14: 
+Powermanga 0.78
+- use automake/autoconf (by Samuel Hocevar)
+- remplacing XFree routines by SDL routines
+- game run in fullscreen
+
+2003-07-01: (Major release)
+Powermanga 0.77
+- rewrite of the major part of the assembler code in langage C (Samuel Hocevar)
+- port to Linux PowerPC (a fix for big endian problems)
+- switching of SEAL routines to the SDL_mixer (musics and sounds)
+- fix for bug in loading PCX files  (Samuel Hocevar)
+- fix for bug of closing the game's window (with the close widget)
+
+2003-04-07:
+Powermanga 0.76 
+ - bug of the 'uninstall' rules : 
+   'rm -f -r $(EXEDIR)' instead 'rm -f -r $(EXEDIR)/$(PROG)'
+   Thank to Torbjörn Andersson torbjorn.e.andersson@tietoenator.com
+
+2003-03-29:
+Powermanga 0.75 (Minor release)
+- fix memory leak (courbe.cpp, gardiens.cpp and grille.cpp) and fix bug
+  in linuxroutines.cpp by Samuel Hocevar <sam@zoy.org>
+- fix bug in "playanim.cpp", write the AUTHORS file, and force by default
+  in mode 640x480 pixels by Bruno Ethvignot <bruno@tlk.fr>
+
+2002-08-20:
+Powermanga 0.74 (Minor release)
+- Update the man page, by Jeronimo Pellegrini <pellegrini@mpcnet.com.br>
+- Update the scroll-text of the menu (given by Samuel Hocevar <sam@zoy.org>)
+- Update Makefile (pacth given by Samuel Hocevar <sam@zoy.org>)
+
+2002-08-17:
+Powermanga 0.73 (Minor release)
+- Fix a file loading bug. Don't find files in 
+  "/usr/share/games/powermanga" (patch by Guillaume Cottenceau)
+- Update Makefile
+
+2002-08-11:
+Powermanga 0.72 (Minor release)
+- Ident the code with indent program and cleaning of the code 
+- Fix thread music bug. Sometimes the sound did not work. 
+  Because the thread would run in loop. This error prevented the program
+  from leaving.
+- Fix bug at the end of game. The game was blocked after the animation
+  of the end. The player should press a key to continue.
+- update Makefile (set optimizations options)
+- Disable inline option in Deplacement_Tir_X() and Deplacement_Tir_Y()
+  functions (patch by Guillaume Cottenceau, for gcc 3.1)
+- Add --easy / --hard options (patch by Laurent Duperval)
+
+2000-12-02:
+Powermanga 0.71c (Minor release)
+- Update Makefile
+- Save score in /var/game/powermanga.hi
+- Fixed files installing bugs 
+
+2000-11-27:
+Powermanga 0.71 (Initial release)
+
+1999-08-17:
+* start the Linux port
