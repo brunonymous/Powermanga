@@ -1,4 +1,4 @@
-2015-01-10
+2015-06-28
 Powermanga 0.93.1
 - Fixes the speed of the stars after a new game that follows congratulation.
 - Clears all gems after the final boss. Thanks to Josh Triplett for the report
@@ -10,6 +10,9 @@ Powermanga 0.93.1
   the report.
 - Allows the joystick to be configured either from the command line or
   from the config file. Thanks to Maurerp for the patch.
+- The __FUNCTION__ macro has been replaced by __func__ macro. ISO C does not
+  support ‘__FUNCTION__’ predefined identifier. (Debian #778072) 
+- Remove -Werror and -pedantic flags for non-test builds.
 
 2014-09-20
 Powermanga 0.93
