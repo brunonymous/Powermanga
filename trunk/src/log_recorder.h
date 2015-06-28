@@ -2,7 +2,7 @@
  * @file log_recorder.h 
  * @brief Records log messages  
  * @created 2009-02-21 
- * @date 2014-09-17 
+ * @date 2015-06-28 
  * @author Bruno Ethvignot
  */
 /*
@@ -59,13 +59,13 @@ bool log_initialize (LOG_LEVELS verbose);
 void log_close (void);
 
 #define LOG_ERR(...)  log_message \
-  (LOG_ERROR, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+  (LOG_ERROR, __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 #define LOG_INF(...)  log_message \
-  (LOG_INFO, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+  (LOG_INFO, __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 #define LOG_WARN(...)  log_message \
-  (LOG_WARNING, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+  (LOG_WARNING, __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 #define LOG_DBG(...)  log_message \
-  (LOG_DEBUG, __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+  (LOG_DEBUG, __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 
 #endif
 #endif

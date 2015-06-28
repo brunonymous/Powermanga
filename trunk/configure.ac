@@ -52,9 +52,9 @@ if test "x${enable_devel}" = "xyes"; then
   dnl If defined [Ctrl] + [V], [Ctrl] + [P], [Ctrl] + [B] are available
   AC_DEFINE(UNDER_DEVELOPMENT,  1, Define to enable development version)
   AC_DEFINE(USE_MALLOC_WRAPPER, 1, Define to use a malloc wrapper)
-  CFLAGS="-Wall -Werror -pedantic -Wextra -std=gnu99 -g"
+  CFLAGS="-Wall -Werror -pedantic -Wextra -std=gnu99 -g $CFLAGS"
 else
-  CFLAGS="-O3 -Werror -Wall -pedantic -Wextra -std=gnu99 $CFLAGS"
+  CFLAGS="-O3 -Wall -Wextra -std=gnu99 $CFLAGS"
 fi
 
 dnl  Check for SDL_mixer
