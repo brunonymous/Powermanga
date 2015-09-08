@@ -230,8 +230,16 @@ display_init (void)
   else
     {
       vi = SDL_GetVideoInfo ();
-      bits_per_pixel = vi->vfmt->BitsPerPixel;
+      
+	  #ifdef __EMSCRIPTEN__
+	  // problem: force 32 Bytes/pixels because emscripten return BytesPerPixel = 111 !!
+	  bits_per_pixel = 4*8;
+      bytes_per_pixel = 4;
+	  #else
+	  bits_per_pixel = vi->vfmt->BitsPerPixel;
       bytes_per_pixel = vi->vfmt->BytesPerPixel;
+	  #endif
+	  
       if (bits_per_pixel == 16)
         {
           bits_per_pixel =
@@ -424,6 +432,12 @@ init_video_mode (void)
   LOG_INF ("SDL_SetVideoMode() successful window_width: %i;"
            " window_height: %i; bits_per_pixel: %i",
            width, height, bits_per_pixel);
+	
+  #ifdef __EMSCRIPTEN__	
+  // clear screen for 640x400 mode 1
+  SDL_FillRect (public_surface, 0, SDL_MapRGBA(public_surface->format, 0, 0, 0, 0xff));
+  #endif
+		   
 #ifdef POWERMANGA_GP2X
   /* The native resolution is 320x200, so we scale up to 320x240
    * when updating the screen */
@@ -599,6 +613,15 @@ create_palettes (void)
               src = palette_24;
               for (i = 0; i < 256; i++)
                 {
+					
+#ifdef __EMSCRIPTEN__
+
+				dest[2] = src[2];
+                dest[1] = src[1];
+                dest[0] = src[0];
+                dest[3] = 255;
+#else				
+					
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
                   dest[3] = src[2];
                   dest[2] = src[1];
@@ -620,6 +643,8 @@ create_palettes (void)
                       dest[3] = 0;
                     }
 #endif
+
+#endif //__EMSCRIPTEN__
                   dest += 4;
                   src += 3;
                 }
@@ -900,7 +925,11 @@ display_handle_events (void)
             /* LOG_INF ("SDL_KEYDOWN: "
                "%i %i %i %i", ke->type, ke->keysym.sym,
                ke->keysym.unicode, ke->state); */
+			#ifdef __EMSCRIPTEN__
+			keys = SDL_GetKeyboardState (NULL);
+			#else
             keys = SDL_GetKeyState (NULL);
+			#endif
             key_status (keys);
             if (ke->keysym.unicode > 0)
               {
@@ -921,7 +950,11 @@ display_handle_events (void)
             /* LOG_INF ("SDL_KEYUP: "
                "%i %i %i %i\n", ke->type, ke->keysym.sym,
                ke->keysym.unicode, ke->state); */
+			#ifdef __EMSCRIPTEN__
+			keys = SDL_GetKeyboardState (NULL);
+			#else
             keys = SDL_GetKeyState (NULL);
+			#endif
             if (ke->keysym.unicode > 0)
               {
                 sprites_string_key_up (ke->keysym.unicode, ke->keysym.sym);
@@ -1314,6 +1347,10 @@ display_movie (void)
 {
   SDL_Rect rsour;
   Sint32 i;
+  
+  #ifdef __EMSCRIPTEN__
+  SDL_LockSurface(movie_surface);
+  #endif
 
   switch (bytes_per_pixel)
     {
@@ -1336,6 +1373,10 @@ display_movie (void)
                 display_width * display_height);
       break;
     }
+	
+  #ifdef __EMSCRIPTEN__
+  SDL_UnlockSurface(movie_surface);
+  #endif
 
   /* 320x200 mode */
   switch (vmode)
@@ -1357,9 +1398,19 @@ display_movie (void)
       /* 640x400 mode */
     case 1:
       {
+		  
+		#ifdef __EMSCRIPTEN__
+		SDL_LockSurface(scalex_surface);
+		#endif
+		  
         copy2X (movie_offscreen, scalex_offscreen, 320, 200, 0,
                 window_width * bytes_per_pixel * 2 -
                 (window_width * bytes_per_pixel));
+				
+		#ifdef __EMSCRIPTEN__
+		SDL_UnlockSurface(scalex_surface);
+		#endif
+				
         rsour.x = 0;
 
         if (window_height == 480)
@@ -1391,12 +1442,18 @@ display_movie (void)
 
       /* scale 2x, 3x or 4x mode */
     case 2:
+	  #ifdef __EMSCRIPTEN__
+	  SDL_LockSurface(public_surface);
+	  #endif
 #ifdef USE_SCALE2X
       scale (power_conf->scale_x, public_surface->pixels,
              public_surface->pitch, movie_offscreen,
              display_width * bytes_per_pixel, bytes_per_pixel, display_width,
              display_height);
 #endif
+	  #ifdef __EMSCRIPTEN__
+	  SDL_UnlockSurface(public_surface);
+	  #endif
       SDL_UpdateRect (public_surface, 0, 0,
                       public_surface->w, public_surface->h);
       break;
@@ -1575,6 +1632,10 @@ display_scale_x (void)
     {
       pixels += 20 * scalex * pitch;
     }
+	
+  #ifdef __EMSCRIPTEN__
+  SDL_LockSurface(public_surface);
+  #endif
 
   /* scale main screen */
   src = game_offscreen + (offscreen_clipsize * offscreen_pitch) +
@@ -1665,6 +1726,11 @@ display_scale_x (void)
                  bytes_per_pixel, 45, 9);
         }
     }
+	
+  #ifdef __EMSCRIPTEN__
+  SDL_UnlockSurface(public_surface);
+  #endif
+	
   SDL_UpdateRect (public_surface, 0, 0, public_surface->w, public_surface->h);
 }
 #endif
@@ -1683,6 +1749,10 @@ display_640x400 (void)
   char *src =
     game_offscreen + (offscreen_clipsize * offscreen_pitch) +
     (offscreen_clipsize * bytes_per_pixel);
+	
+  #ifdef __EMSCRIPTEN__
+  SDL_LockSurface(scalex_surface);
+  #endif
 
   /* recopy on the screen: doubling pixels horizontally
      "assembler_opt.S" or "gfxroutine.c" */
@@ -1928,6 +1998,10 @@ display_640x400 (void)
       update_all = FALSE;
       opt_refresh_index = -1;
     }
+	
+  #ifdef __EMSCRIPTEN__
+  SDL_UnlockSurface(scalex_surface);
+  #endif
 
   SDL_UpdateRect (public_surface, 0, starty, public_surface->w,
                   public_surface->h - starty);
@@ -2052,6 +2126,11 @@ display_clear_offscreen (void)
   rect.y = (Sint16) offscreen_clipsize;
   rect.w = (Uint16) offscreen_width_visible;
   rect.h = (Uint16) offscreen_height_visible;
+  
+  #ifdef __EMSCRIPTEN__
+  real_black_color = SDL_MapRGBA(public_surface->format, 0, 0, 0, 0xff);
+  #endif
+  
   if (SDL_FillRect (game_surface, &rect, real_black_color) < 0)
     {
       LOG_ERR ("SDL_FillRect(game_surface) return %s", SDL_GetError ());
@@ -2178,6 +2257,59 @@ free_surfaces (void)
       LOG_DBG ("SDL_FreeSurface: %ix%i", w, h);
     }
 }
+
+
+#ifdef __EMSCRIPTEN__
+
+/**
+ * Lock option_surface
+*/
+void lockSurfaceOptions()
+{
+	SDL_LockSurface(options_surface);
+}
+
+/**
+ * Unlock option_surface
+*/
+void unlockSurfaceOptions()
+{
+	SDL_UnlockSurface(options_surface);	
+}
+
+/**
+ * Lock score_surface
+*/
+void lockSurfaceScores()
+{
+	SDL_LockSurface(score_surface);
+}
+
+/**
+ * Unlock score_surface
+*/
+void unlockSurfaceScores()
+{
+	SDL_UnlockSurface(score_surface);	
+}
+
+/**
+ * Lock game_surface
+*/
+void lockSurfaceGame()
+{
+	SDL_LockSurface(game_surface);
+}
+
+/**
+ * Unlock game_surface
+*/
+void unlockSurfaceGame()
+{
+	SDL_UnlockSurface(game_surface);	
+}
+
+#endif //__EMSCRIPTEN__
 
 
 #ifdef SHAREWARE_VERSION

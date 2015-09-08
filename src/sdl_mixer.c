@@ -87,6 +87,15 @@ static const char *sounds_filenames[SOUND_NUMOF] = {
 };
 
 /** Filenames of the musics modules */
+
+#ifdef __EMSCRIPTEN__
+static const char *musics_filenames[] = {
+  "sounds/handheld_console/music_menu.ogg",
+  "sounds/handheld_console/music_game.ogg",
+  "sounds/handheld_console/music_congratulations.ogg"
+};
+#else
+
 #ifdef POWERMANGA_HANDHELD_CONSOLE
 static const char *musics_filenames[] = {
   "sounds/handheld_console/music_menu.ogg",
@@ -100,6 +109,8 @@ static const char *musics_filenames[] = {
   "sounds/music_congratulations.zik"
 };
 #endif
+
+#endif //__EMSCRIPTEN__
 
 /** Internal format of the waves sounds */
 static Mix_Chunk *sounds_chunck[SOUND_NUMOF];
