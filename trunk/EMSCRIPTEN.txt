@@ -1,0 +1,45 @@
+
+How to compile Emscripten version :
+ 
+PREREQUISITES
+
+ - Install Cmake
+ - Install Emscripten SDK
+ - need gcc or mingw gcc on Windows
+ 
+COMPILING
+
+ - Create the config.h file :
+ 
+		copy config.h.in src/config.h
+		
+   Edit the file to use SDL and SDL_mixer :
+		
+		#define POWERMANGA_SDL
+		
+		#define USE_SDLMIXER
+
+ - In PowerManga project root, create a directory to build the project
+   
+		mkdir buildem
+		
+   Game resources must be in the assets subdirectory :
+   
+	    buildem/assets/data/...
+		buildem/assets/graphics/...
+		buildem/assets/sounds/...
+		buildem/assets/texts/...
+		buildem/assets/tlk-games/...
+ 
+   Linux:
+		
+		cd buildem
+		emconfigure cmake ..
+		make
+		
+   Windows:
+   
+		cd buildem
+		emconfigure cmake ..
+		mingw32-make
+	
