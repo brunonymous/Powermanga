@@ -113,7 +113,9 @@ bool
 configfile_check_dir (void)
 {
   Uint32 length;
+#ifndef _WIN32  
   DIR *dir = NULL;
+#endif
   if (config_dir == NULL)
     {
       /* Determines the size of the string of the directory
