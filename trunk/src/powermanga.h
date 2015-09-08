@@ -74,6 +74,12 @@
 #include <unistd.h>
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include <string.h>
+#include <ctype.h>
+#include <emscripten.h>
+#endif
+
 #ifdef SHAREWARE_VERSION
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>

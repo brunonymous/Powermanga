@@ -113,6 +113,12 @@ update_frame (void)
 
   display_clear_offscreen ();
 
+  #ifdef __EMSCRIPTEN__  
+  lockSurfaceGame();
+  lockSurfaceOptions();
+  lockSurfaceScores();
+  #endif
+
   /* restores the level of energy of the player spaceship */
   spaceship_energy_restore ();
 
@@ -400,6 +406,13 @@ update_frame (void)
     {
       spaceship_weapons ();
     }
+	
+  #ifdef __EMSCRIPTEN__  
+  unlockSurfaceScores();
+  unlockSurfaceOptions();
+  unlockSurfaceGame();
+  #endif
+	
   return TRUE;
 }
 

@@ -135,6 +135,14 @@ extern "C"
   void show_page_order (int num, char *lang, int cpt);
 #endif
 
+#ifdef __EMSCRIPTEN__
+	void lockSurfaceOptions();
+	void unlockSurfaceOptions();
+	void lockSurfaceScores();
+	void unlockSurfaceScores();
+	void lockSurfaceGame();
+	void unlockSurfaceGame();
+#endif
 
   extern Sint32 display_width;
   extern Sint32 display_height;

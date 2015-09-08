@@ -57,6 +57,10 @@
 
 /* TRUE = leave the Powermanga game */
 bool quit_game = FALSE;
+
+Sint32 pause_delay = 0;
+Sint32 frame_diff = 0;
+
 #ifdef POWERMANGA_SDL
 /* game speed : 70 frames/sec (1000 <=> 1 seconde ; 1000 / 70 =~ 14) */
 static const Uint32 GAME_FRAME_RATE = 14;
@@ -295,16 +299,12 @@ initialize_and_run (void)
 }
 
 /**
- * Main loop of the Powermanga game
+ * Main lopp iteration
+ * need to separate iteration from the main loop for emscripten version
  */
-void
-main_loop (void)
+void main_loop_iteration(void)
 {
-  Sint32 pause_delay = 0;
-  Sint32 frame_diff = 0;
-  do
-    {
-      loops_counter++;
+	  loops_counter++;
       if (!power_conf->nosync)
         {
           frame_diff = get_time_difference ();
@@ -336,6 +336,28 @@ main_loop (void)
       /* play music and sounds */
       sound_handle ();
 #endif
+}
+
+/**
+ * Main loop of the Powermanga game
+ */
+void
+main_loop (void)
+{
+  
+  #ifdef __EMSCRIPTEN__
+  // set emscripten main loop, with fps = 0 to use requestAnimationFrame
+  emscripten_set_main_loop(main_loop_iteration, 0, 1);
+  #else
+  
+  do
+    {
+		
+	  // one iteration of the main loop
+	  main_loop_iteration();
+		
     }
   while (!quit_game);
+  
+  #endif //__EMSCRIPTEN__
 }

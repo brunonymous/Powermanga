@@ -622,7 +622,11 @@ locate_data_file (const char *const name)
 #else
   struct stat s;
 #endif
+  #ifdef __EMSCRIPTEN__
+  const char *subdir = "/assets/";
+  #else
   const char *subdir = "/share/games/powermanga/";
+  #endif
 
   if (name == NULL)
     {
@@ -1140,7 +1144,10 @@ wait_next_frame (Sint32 delay, Sint32 max)
     }
   if (delay > 0)
     {
+	  #ifndef __EMSCRIPTEN__	  
+	  // Emscripten : must remove all SDL_Delay
       SDL_Delay (delay);
+	  #endif
     }
   return (delay > 0 ? delay : 0);
 #else
