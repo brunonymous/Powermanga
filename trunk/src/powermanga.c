@@ -1,7 +1,7 @@
 /** 
  * @file powermanga.c
  * @brief The main loop of the game Powermanga 
- * @date 2012-08-26 
+ * @date 2015-09-09 
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
@@ -113,11 +113,11 @@ update_frame (void)
 
   display_clear_offscreen ();
 
-  #ifdef __EMSCRIPTEN__  
-  lockSurfaceGame();
-  lockSurfaceOptions();
-  lockSurfaceScores();
-  #endif
+#ifdef __EMSCRIPTEN__
+  lock_surface_game ();
+  lock_surface_options ();
+  lock_surface_scores ();
+#endif
 
   /* restores the level of energy of the player spaceship */
   spaceship_energy_restore ();
@@ -406,13 +406,13 @@ update_frame (void)
     {
       spaceship_weapons ();
     }
-	
-  #ifdef __EMSCRIPTEN__  
-  unlockSurfaceScores();
-  unlockSurfaceOptions();
-  unlockSurfaceGame();
-  #endif
-	
+
+#ifdef __EMSCRIPTEN__
+  unlock_surface_scores ();
+  unlock_surface_options ();
+  unlock_surface_game ();
+#endif
+
   return TRUE;
 }
 

@@ -2,7 +2,7 @@
  * @file display.h
  * @brief handle displaying and updating the graphical components of the game
  * @created 2006-12-03
- * @date 2012-08-26 
+ * @date 2015-09-09 
  * @author Bruno Ethvignot
  */
 /*
@@ -136,12 +136,12 @@ extern "C"
 #endif
 
 #ifdef __EMSCRIPTEN__
-	void lockSurfaceOptions();
-	void unlockSurfaceOptions();
-	void lockSurfaceScores();
-	void unlockSurfaceScores();
-	void lockSurfaceGame();
-	void unlockSurfaceGame();
+  void lock_surface_options ();
+  void unlock_surface_options ();
+  void lock_surface_scores ();
+  void unlock_surface_scores ();
+  void lock_surface_game ();
+  void unlock_surface_game ();
 #endif
 
   extern Sint32 display_width;

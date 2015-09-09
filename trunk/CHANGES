@@ -1,3 +1,7 @@
+2015-09-09
+Powermanga 0.94.0
+- Add support to Emscripten
+
 2015-06-28
 Powermanga 0.93.1
 - Fixes the speed of the stars after a new game that follows congratulation.

@@ -2,7 +2,7 @@
  * @file sdl_mixer.c
  * @brief Handle sounds and musics
  * @created 2003-06-27
- * @date 2012-08-26 
+ * @date 2015-09-09 
  * @author Bruno Ethvignot
  */
 /* 
@@ -110,7 +110,7 @@ static const char *musics_filenames[] = {
 };
 #endif
 
-#endif //__EMSCRIPTEN__
+#endif /* __EMSCRIPTEN__ */
 
 /** Internal format of the waves sounds */
 static Mix_Chunk *sounds_chunck[SOUND_NUMOF];
