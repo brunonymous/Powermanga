@@ -2,7 +2,7 @@
  * @file movie.c
  * @brief play start and congratulations animations files
  *        ("movie_congratulation.gca" and "movie_introduction.gca")
- * @date 2012-08-26 
+ * @date 2015-11-09 
  * @author Etienne Sobole
  */
 /*
@@ -239,14 +239,14 @@ movie_load (const char *filename)
       _pPal = pcxpal;
       for (i = 0; i < 256; i++)
         {
-			
+
 #ifdef __EMSCRIPTEN__
-		_p[2] = _pPal[2];
-	    _p[1] = _pPal[1];
-		_p[0] = _pPal[0];
-		_p[3] = 255;
-#else			
-			
+          _p[2] = _pPal[2];
+          _p[1] = _pPal[1];
+          _p[0] = _pPal[0];
+          _p[3] = 255;
+#else
+
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
           _p[3] = _pPal[2];
           _p[2] = _pPal[1];
@@ -269,7 +269,7 @@ movie_load (const char *filename)
             }
 #endif
 
-#endif //__EMSCRIPTEN__
+#endif /* __EMSCRIPTEN__ */
           _p += 4;
           _pPal += 3;
         }

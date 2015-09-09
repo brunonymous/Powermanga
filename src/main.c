@@ -2,7 +2,7 @@
  * @file main.c
  * @brief Main function is where the program starts execution
  * @created 1999-08-17
- * @date 2012-08-26
+ * @date 2015-09-09 
  */
 /*
  * copyright (c) 1998-2015 TLK Games all rights reserved
@@ -57,9 +57,8 @@
 
 /* TRUE = leave the Powermanga game */
 bool quit_game = FALSE;
-
-Sint32 pause_delay = 0;
-Sint32 frame_diff = 0;
+static Sint32 pause_delay = 0;
+static Sint32 frame_diff = 0;
 
 #ifdef POWERMANGA_SDL
 /* game speed : 70 frames/sec (1000 <=> 1 seconde ; 1000 / 70 =~ 14) */
@@ -302,39 +301,40 @@ initialize_and_run (void)
  * Main lopp iteration
  * need to separate iteration from the main loop for emscripten version
  */
-void main_loop_iteration(void)
+void
+main_loop_iteration (void)
 {
-	  loops_counter++;
-      if (!power_conf->nosync)
+  loops_counter++;
+  if (!power_conf->nosync)
+    {
+      frame_diff = get_time_difference ();
+      if (movie_playing_switch != MOVIE_NOT_PLAYED)
         {
-          frame_diff = get_time_difference ();
-          if (movie_playing_switch != MOVIE_NOT_PLAYED)
-            {
-              pause_delay =
-                wait_next_frame (MOVIE_FRAME_RATE - frame_diff + pause_delay,
-                                 MOVIE_FRAME_RATE);
-            }
-          else
-            {
-              pause_delay =
-                wait_next_frame (GAME_FRAME_RATE - frame_diff + pause_delay,
-                                 GAME_FRAME_RATE);
-            }
+          pause_delay =
+            wait_next_frame (MOVIE_FRAME_RATE - frame_diff + pause_delay,
+                             MOVIE_FRAME_RATE);
         }
-      /* handle Powermanga game */
-      if (!update_frame ())
+      else
         {
-          quit_game = TRUE;
+          pause_delay =
+            wait_next_frame (GAME_FRAME_RATE - frame_diff + pause_delay,
+                             GAME_FRAME_RATE);
         }
-      /* handle keyboard and joystick events */
-      display_handle_events ();
+    }
+  /* handle Powermanga game */
+  if (!update_frame ())
+    {
+      quit_game = TRUE;
+    }
+  /* handle keyboard and joystick events */
+  display_handle_events ();
 
-      /* update our main window */
-      display_update_window ();
+  /* update our main window */
+  display_update_window ();
 
 #ifdef USE_SDLMIXER
-      /* play music and sounds */
-      sound_handle ();
+  /* play music and sounds */
+  sound_handle ();
 #endif
 }
 
@@ -344,20 +344,18 @@ void main_loop_iteration(void)
 void
 main_loop (void)
 {
-  
-  #ifdef __EMSCRIPTEN__
-  // set emscripten main loop, with fps = 0 to use requestAnimationFrame
-  emscripten_set_main_loop(main_loop_iteration, 0, 1);
-  #else
-  
+
+#ifdef __EMSCRIPTEN__
+  /* set Emscripten main loop, with FPS = 0 to use
+   * Window.requestAnimationFrame() */
+  emscripten_set_main_loop (main_loop_iteration, 0, 1);
+#else
   do
     {
-		
-	  // one iteration of the main loop
-	  main_loop_iteration();
-		
+      /* one iteration of the main loop */
+      main_loop_iteration ();
     }
   while (!quit_game);
-  
-  #endif //__EMSCRIPTEN__
+
+#endif /* __EMSCRIPTEN__ */
 }

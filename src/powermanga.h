@@ -1,7 +1,7 @@
 /**
  * @file powermanga.h
  * @brief global header file
- * @date 2015-06-28
+ * @date 2015-09-09
  * @author Jean-Michel Martin de Santero
  * @author Bruno Ethvignot
  */
@@ -27,9 +27,9 @@
 #ifndef __POWERMANGA__
 #define __POWERMANGA__
 #if !defined(PACKAGE_STRING)
-#define PACKAGE_STRING "Powermanga 0.93.1"
+#define PACKAGE_STRING "Powermanga 0.94.0"
 #endif
-#define POWERMANGA_VERSION PACKAGE_STRING " 2015-06-28 "
+#define POWERMANGA_VERSION PACKAGE_STRING " 2015-09-09 "
 
 #if !defined(POWERMANGA_SDL) && !defined(POWERMANGA_X11)
 #define POWERMANGA_SDL

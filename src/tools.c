@@ -2,7 +2,7 @@
  * @file tools.c
  * @brief handle memory allocation and file access
  * @created 1999-08-19
- * @date 2011-02-17
+ * @date 2015-09-09 
  */
 /*
  * copyright (c) 1998-2015 TLK Games all rights reserved
@@ -622,11 +622,11 @@ locate_data_file (const char *const name)
 #else
   struct stat s;
 #endif
-  #ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
   const char *subdir = "/assets/";
-  #else
+#else
   const char *subdir = "/share/games/powermanga/";
-  #endif
+#endif
 
   if (name == NULL)
     {
@@ -1142,13 +1142,13 @@ wait_next_frame (Sint32 delay, Sint32 max)
     {
       delay = max;
     }
+#ifndef __EMSCRIPTEN__
   if (delay > 0)
     {
-	  #ifndef __EMSCRIPTEN__	  
-	  // Emscripten : must remove all SDL_Delay
+      /* Emscripten: must remove all SDL_Delay */
       SDL_Delay (delay);
-	  #endif
     }
+#endif
   return (delay > 0 ? delay : 0);
 #else
   struct timeval temps;
