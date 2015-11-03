@@ -202,19 +202,23 @@ inits_game (void)
       return FALSE;
     }
   /* load right options panel  */
+  lock_surface_options();
   if (!
       (load_pcx_into_buffer
        ("graphics/right_options_panel.pcx", options_offscreen)))
     {
       return FALSE;
     }
+  unlock_surface_options();
   /* load top scores panel */
+    lock_surface_scores();
   if (!
       (load_pcx_into_buffer
        ("graphics/top_scores_panel.pcx", scores_offscreen)))
     {
       return FALSE;
     }
+  unlock_surface_scores();
   return TRUE;
 }
 
