@@ -820,6 +820,7 @@ bonus_meteor_get (Sint32 value)
         {
           btype = PENALITY_LONELY_FOE;
         }
+	  break;
     }
   return btype;
 }
