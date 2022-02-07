@@ -17,10 +17,10 @@ SET(CMAKE_BUILD_TYPE Release)
 #SET(MAKE_VERBOSE_MAKEFILE off)
 
 # configuration file
-#configure_file (
-#	"${PROJECT_SOURCE_DIR}/config.h.in"
-#	"${PROJECT_SOURCE_DIR}/src/config.h"
-#)
+configure_file (
+	"${PROJECT_SOURCE_DIR}/config.h.in"
+	"${PROJECT_SOURCE_DIR}/src/config.h"
+)
 
 if(NOT EMSCRIPTEN)
 find_package(SDL)
@@ -48,16 +48,13 @@ else()
 # windows mingw gcc options
 if(WIN32 AND MINGW)
 
-SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native -mtune=native -std=gnu99")
-SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -m32")
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
+SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -std=gnu99")
 SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -pipe -Wall -Wextra")
-SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -ffast-math -s -flto")
+SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -ffast-math")
 SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DNDEBUG -D_WIN32")
 SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -pipe -g -DDEBUG")
 SET(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
 SET(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -g")
-SET(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -static -s -flto")
 
 endif()
 
@@ -77,13 +74,8 @@ endif()
 # unix gcc options
 if(UNIX AND NOT APPLE)
 
-SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -march=native -mtune=native")
-SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -m32")
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
 SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -pipe -Wall")
-SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -fwhole-program -ffast-math -s -flto")
-SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fno-rtti")
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -s -flto")
+SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -ffast-math")
 
 endif()
 
@@ -194,11 +186,19 @@ add_executable(
 )
 
 if(NOT EMSCRIPTEN)
+if(UNIX)
+target_link_libraries(
+	powermanga -lm
+	${SDL_LIBRARY}
+	${SDL_MIXER_LIBRARY}
+)
+else()
 target_link_libraries(
 	powermanga
 	${SDL_LIBRARY}
 	${SDL_MIXER_LIBRARY}
 )
+endif()
 endif()
 
 if(EMSCRIPTEN)
