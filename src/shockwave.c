@@ -576,7 +576,7 @@ shockwave_init (void)
  * Etienne
  */
 static void
-draw_polygon (char *addr, Sint32 * coords, Sint32 numofpts, Uint32 color)
+draw_polygon (char *addr, Sint32 * pcoords, Sint32 numofpts, Uint32 color)
 {
   Sint32 i, j, x;
   Sint32 x1, x2, y1, y2;
@@ -607,8 +607,8 @@ draw_polygon (char *addr, Sint32 * coords, Sint32 numofpts, Uint32 color)
   max = -10000000;
   for (i = 0; i < numofpts * 2; i += 2)
     {
-      y1 = coords[i + 1];
-      y2 = coords[i + 3];
+      y1 = pcoords[i + 1];
+      y2 = pcoords[i + 3];
       dy = y2 - y1;
       /* ignore horizontal segment */
       if (dy != 0)
@@ -617,8 +617,8 @@ draw_polygon (char *addr, Sint32 * coords, Sint32 numofpts, Uint32 color)
             min = y1;
           if (y1 > max)
             max = y1;
-          x1 = coords[i];
-          x2 = coords[i + 2];
+          x1 = pcoords[i];
+          x2 = pcoords[i + 2];
           dx = x2 - x1;
 
           /* left buffer */

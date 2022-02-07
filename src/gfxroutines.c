@@ -40,18 +40,18 @@ _type_routine_gfx (Sint32 * addr)
 /* To test these functions: the intro animation */
 
 void
-conv8_16 (char *src, char *dest, Uint16 * pal16, Uint32 size)
+conv8_16 (char *src, char *dest, Uint16 * cpal16, Uint32 size)
 {
   Uint16 *d = (Uint16 *) dest;
   unsigned char *s = (unsigned char *) src;
   while (size--)
     {
-      *d++ = pal16[*s++];
+      *d++ = cpal16[*s++];
     }
 }
 
 void
-conv8_24 (char *src, char *dest, Uint32 * pal24, Uint32 size)
+conv8_24 (char *src, char *dest, Uint32 * cpal24, Uint32 size)
 {
   /* (!) This code was not tested at all */
   char *p;
@@ -59,7 +59,7 @@ conv8_24 (char *src, char *dest, Uint32 * pal24, Uint32 size)
   unsigned char *s = (unsigned char *) src;
   while (size--)
     {
-      p = (char *) (pal24 + *(s++));
+      p = (char *) (cpal24 + *(s++));
       *d++ = *p++;
       *d++ = *p++;
       *d++ = *p++;
@@ -67,13 +67,13 @@ conv8_24 (char *src, char *dest, Uint32 * pal24, Uint32 size)
 }
 
 void
-conv8_32 (char *src, char *dest, Uint32 * pal32, Uint32 size)
+conv8_32 (char *src, char *dest, Uint32 * cpal32, Uint32 size)
 {
   Uint32 *d = (Uint32 *) dest;
   unsigned char *s = (unsigned char *) src;
   while (size--)
     {
-      *d++ = pal32[*s++];
+      *d++ = cpal32[*s++];
     }
 }
 
