@@ -8,13 +8,18 @@
 # - tested only in Windows/mingw gcc & Emscripten
 # - need more options + config file
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
-project(PowerManga C CXX)
+project(PowerManga C)
 
 SET(CMAKE_BUILD_TYPE Release)
 
 #SET(MAKE_VERBOSE_MAKEFILE off)
+
+option(POWERMANGA_SDL 	"Using SDL library"		on)
+option(POWERMANGA_SDL2  "Using SDL2 library"	off)
+#option(POWERMANGA_X11 "Using XLib library" on Linux"		off)
+option(USE_SDLMIXER  "Enable sound with SDL_Mixer library"	off)
 
 # configuration file
 configure_file (
@@ -23,8 +28,12 @@ configure_file (
 )
 
 if(NOT EMSCRIPTEN)
+if(POWERMANGA_SDL)
 find_package(SDL)
+if(USE_SDLMIXER)
 find_package(SDL_mixer)
+endif()
+endif()
 endif()
 
 # assets path
@@ -82,13 +91,20 @@ endif()
 # end EMSCRIPTEN
 endif()
 
-
 if(NOT EMSCRIPTEN)
 include_directories(
 	${INCLUDE_DIRECTORIES}
+)
+if(POWERMANGA_SDL)
+include_directories(
 	${SDL_INCLUDE_DIR}
+)
+endif()
+if(USE_SDLMIXER)
+include_directories(
 	${SDL_MIXER_INCLUDE_DIR}
 )
+endif()
 endif()
 
 # files
@@ -109,6 +125,7 @@ add_executable(
 	src/display.c 
 	src/display.h 
 	src/display_sdl.c 
+	src/display_sdl2.c 
 	src/display_x11.c 	
 	src/electrical_shock.c 
 	src/enemies.c 
@@ -181,23 +198,31 @@ add_executable(
 	src/tools.h
 	
 	src/gfxroutines.h
-	src/gfxroutines.c 
-	
+	src/gfxroutines.c 	
 )
 
 if(NOT EMSCRIPTEN)
-if(UNIX)
-target_link_libraries(
-	powermanga -lm
-	${SDL_LIBRARY}
-	${SDL_MIXER_LIBRARY}
-)
-else()
+
+if(POWERMANGA_SDL)
 target_link_libraries(
 	powermanga
 	${SDL_LIBRARY}
+)
+if(USE_SDLMIXER)
+target_link_libraries(
+	powermanga
 	${SDL_MIXER_LIBRARY}
 )
+endif()
+endif()
+
+if(UNIX)
+target_link_libraries(
+	powermanga
+	-lm
+)
+else()
+
 endif()
 endif()
 

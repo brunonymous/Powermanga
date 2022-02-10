@@ -45,7 +45,7 @@
 #include "sprites_string.h"
 #include "texts.h"
 
-#if defined(POWERMANGA_SDL) && !defined(POWERMANGA_SDL2)
+#if defined(POWERMANGA_SDL) && defined(POWERMANGA_SDL2)
 
 #if defined(POWERMANGA_GP2X) || defined(_WIN32_WCE)
 static Uint32 display_offset_y = 0;
@@ -104,6 +104,11 @@ typedef enum
 bool psp_buttons[PSP_NUM_BUTTONS];
 #endif
 
+/* SDL2 main window */
+static SDL_Window *main_window = NULL;
+/* SDL2 renderer */
+static SDL_Renderer *main_renderer = NULL;
+
 /* SDL surfaces */
 #define MAX_OF_SURFACES 100
 static SDL_Surface *public_surface = NULL;
@@ -118,6 +123,10 @@ static SDL_Surface *score_surface = NULL;
 static SDL_Surface *movie_surface = NULL;
 static Uint32 surfaces_counter = 0;
 static SDL_Surface *surfaces_list[MAX_OF_SURFACES];
+
+/* remember last key pressed in SDL_TEXTINPUT, 
+   to release it later in SDL_KEYUP */
+static Uint32 lastKeySym = 0;
 
 #ifdef USE_SDL_JOYSTICK
 /** Number of available joysticks */
@@ -162,10 +171,6 @@ display_init (void)
   Uint32 i;
   Uint32 sdl_flag;
 
-#ifndef POWERMANGA_HANDHELD_CONSOLE
-  const SDL_VideoInfo *vi;
-  char driver_name[32];
-#endif
   for (i = 0; i < MAX_OF_SURFACES; i++)
     {
       surfaces_list[i] = (SDL_Surface *) NULL;
@@ -216,90 +221,11 @@ display_init (void)
       return FALSE;
     }
 #endif
-
-#ifdef POWERMANGA_HANDHELD_CONSOLE
-  /* force 8 bits per pixel if running on the GP2X or PSP */
-  bits_per_pixel = 8;
-  bytes_per_pixel = 1;
-#else
-  if (power_conf->extract_to_png)
-    {
-      bits_per_pixel = 8;
-      bytes_per_pixel = 1;
-    }
-  else
-    {
-      vi = SDL_GetVideoInfo ();
-
-#ifdef __EMSCRIPTEN__
-      /* problem: force 32 bytes per pixel because Emscripten
-       * return BytesPerPixel = 111! */
-      bits_per_pixel = 4 * 8;
-      bytes_per_pixel = 4;
-#else
-      bits_per_pixel = vi->vfmt->BitsPerPixel;
-      bytes_per_pixel = vi->vfmt->BytesPerPixel;
-#endif
-
-      if (bits_per_pixel == 16)
-        {
-          bits_per_pixel =
-            vi->vfmt->Rshift + vi->vfmt->Gshift + vi->vfmt->Bshift;
-        }
-      if (bits_per_pixel < 8)
-        {
-
-          LOG_ERR ("Powermanga need 8 bits per pixels minimum"
-                   " (256 colors)");
-          return FALSE;
-        }
-      LOG_DBG ("Rmask=%i Gmask=%i Bmask=%i Amask: %i", vi->vfmt->Rmask,
-               vi->vfmt->Gmask, vi->vfmt->Bmask, vi->vfmt->Amask);
-      LOG_DBG ("Rshift=%i Gshift=%i Bshift=%i Ashift: %i", vi->vfmt->Rshift,
-               vi->vfmt->Gshift, vi->vfmt->Bshift, vi->vfmt->Ashift);
-      LOG_DBG ("Rloss=%i Gloss=%i Bloss=%i Aloss: %i", vi->vfmt->Rloss,
-               vi->vfmt->Gloss, vi->vfmt->Bloss, vi->vfmt->Aloss);
-      LOG_DBG ("Pixel value of transparent pixels. colorkey: %i",
-               vi->vfmt->colorkey);
-      LOG_DBG ("Overall surface alpha value. alpha=%i", vi->vfmt->alpha);
-      LOG_DBG ("Is it possible to create hardware surfaces? hw_available: %i",
-               vi->hw_available);
-      LOG_DBG ("Is there a window manager available wm_available: %i",
-               vi->wm_available);
-      LOG_DBG ("Are hardware to hardware blits accelerated? blit_hw: %i",
-               vi->blit_hw);
-      LOG_DBG
-        ("Are hardware to hardware colorkey blits accelerated? blit_hw_CC: %i",
-         vi->blit_hw_CC);
-      LOG_DBG
-        ("Are hardware to hardware alpha blits accelerated? blit_hw_A: %i",
-         vi->blit_hw_A);
-      LOG_DBG ("Are software to hardware blits accelerated? blit_sw: %i",
-               vi->blit_sw);
-      LOG_DBG
-        ("Are software to hardware colorkey blits accelerated? blit_sw_CC: %i",
-         vi->blit_sw_CC);
-      LOG_DBG
-        ("Are software to hardware alpha blits accelerated? blit_sw_A: %i",
-         vi->blit_sw_A);
-      LOG_DBG ("Are color fills accelerated? blit_fill: %i", vi->blit_fill);
-      LOG_DBG ("Total amount of video memory in Kilobytes. video_mem: %i",
-               vi->video_mem);
-      if (SDL_VideoDriverName (driver_name, 32) != NULL)
-        {
-          LOG_INF ("the name of the video driver: %s", driver_name);
-        }
-
-    }
-#endif
-
-  LOG_INF ("depth of screen: %i; bytes per pixel: %i",
-           bits_per_pixel, bytes_per_pixel);
+	   
   if (!init_video_mode ())
     {
       return FALSE;
     }
-  SDL_EnableUNICODE (1);
   LOG_INF ("video has been successfully initialized");
   return TRUE;
 }
@@ -313,11 +239,9 @@ init_video_mode (void)
 {
   Uint32 i;
 #ifndef POWERMANGA_HANDHELD_CONSOLE
-  Uint32 bpp;
   Uint32 width, height;
-  SDL_Rect **modes;
 #endif
-  Uint32 flag;
+  Uint32 flag = 0;
 
   /* 640x480 instead of 640x400 on win32 only */
   if ((vmode) && (vmode2) && power_conf->scale_x == 2)
@@ -325,12 +249,11 @@ init_video_mode (void)
       window_height = 480;
     }
 
-
 #ifdef POWERMANGA_HANDHELD_CONSOLE
   /* Ignore any video mode options if running on the GP2X or PSP
    * - force a 320x240 full screen resolution, with 8 bits per pixel,
    * as well as specific SDL surface flags */
-  flag = SDL_SWSURFACE | SDL_FULLSCREEN;
+	flag = SDL_WINDOW_FULLSCREEN;
 #ifdef POWERMANGA_GP2X
   window_height = GP2X_VIDEO_HEIGHT;
   /* Use a 20px y offset to center the output on the GP2X's screen */
@@ -347,38 +270,15 @@ init_video_mode (void)
     }
 #endif
 #else
-  /* check if video mode is available */
-  flag = SDL_ANYFORMAT;
-  if (bytes_per_pixel == 1)
+	
+	if (power_conf->fullscreen > 0)
     {
-      flag = flag | SDL_HWPALETTE;
+      flag = flag | SDL_WINDOW_FULLSCREEN;
     }
-  if (power_conf->fullscreen > 0)
-    {
-      flag = flag | SDL_FULLSCREEN;
-    }
-
-  modes = SDL_ListModes (NULL, flag);
-  if (modes == NULL)
-    {
-      LOG_ERR (" SDL_ListModes return %s", SDL_GetError ());
-      return FALSE;
-    }
-  if (modes != (SDL_Rect **) - 1)
-    {
-      for (i = 0; modes[i]; i++)
-        {
-          LOG_INF ("mode %i; width: %i; height: %i",
-                   i, modes[i]->w, modes[i]->h);
-        }
-    }
-  else
-    {
-      LOG_DBG ("any dimension is okay for the given format");
-    }
-
+		
   width = window_width;
   height = window_height;
+  
 #if defined(_WIN32_WCE)
   /* Samsung - SGH- i900 - Player Addict Omnia
    * mode 0; width: 400; height:240
@@ -396,49 +296,62 @@ init_video_mode (void)
   LOG_INF ("display_offset_y: %i", display_offset_y);
   is_reverse_ctrl = TRUE;
 #endif
-  bpp = SDL_VideoModeOK (width, height, bits_per_pixel, flag);
-  if (bpp == 0)
-    {
-      if (!power_conf->fullscreen)
-        {
-          LOG_ERR ("SDL_VideoModeOK() failed");
-          return FALSE;
-        }
-      else
-        {
-          /* fullscreen fail, try in window mode */
-          power_conf->fullscreen = 0;
-          flag = SDL_ANYFORMAT;
-          if (bytes_per_pixel == 1)
-            {
-              flag = flag | SDL_HWPALETTE;
-            }
-          bpp = SDL_VideoModeOK (width, height, bits_per_pixel, flag);
-          if (bpp == 0)
-            {
-              LOG_ERR ("SDL_VideoModeOK() failed");
-              return FALSE;
-            }
-        }
-    }
+	
 #endif
 
   /* initialize video mode */
-  public_surface = SDL_SetVideoMode (width, height, bits_per_pixel, flag);
+  
+  main_window = SDL_CreateWindow(window_tile, SDL_WINDOWPOS_UNDEFINED, 
+	SDL_WINDOWPOS_UNDEFINED, width, height, flag);
+  if (main_window == NULL) 
+    {
+	  LOG_ERR("SDL_CreateWindow() return %s", SDL_GetError());
+	  return FALSE;
+    }
+    
+  #ifdef POWERMANGA_HANDHELD_CONSOLE
+  Uint32 rflag = SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC;
+  #else
+  Uint32 rflag = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+  #endif
+  
+  main_renderer = SDL_CreateRenderer(main_window, -1, rflag);
+  if (main_renderer == NULL) 
+    {
+	  LOG_ERR("SDL_CreateRenderer() return %s", SDL_GetError());
+	  return FALSE;
+    }
+  public_surface = SDL_GetWindowSurface(main_window);
   if (public_surface == NULL)
     {
-      LOG_ERR ("SDL_SetVideoMode() return %s", SDL_GetError ());
+      LOG_ERR ("SDL_GetWindowSurface() return %s", SDL_GetError ());
       return FALSE;
     }
+	
+  SDL_DisplayMode dm;
+  int r = SDL_GetWindowDisplayMode(main_window, &dm);
+  if (r != 0)
+    {
+      LOG_ERR ("SDL_GetWindowDisplayMode() return %s", SDL_GetError ());
+      return FALSE;
+    }
+  
+  bytes_per_pixel = SDL_BYTESPERPIXEL(dm.format); 
+  /* note: SDL_BITSPERPIXEL can return 24 for 4 bytes per pixels if
+     alpha is ignored in video mode */
+  bits_per_pixel = bytes_per_pixel * 8;
+  
+  LOG_INF ("depth of screen: %i; bytes per pixel: %i;",
+           bits_per_pixel, bytes_per_pixel);
+  	
   LOG_INF ("SDL_SetVideoMode() successful window_width: %i;"
-           " window_height: %i; bits_per_pixel: %i",
+           " window_height: %i; bits_per_pixel: %i; Rmask",
            width, height, bits_per_pixel);
 
-#ifdef __EMSCRIPTEN__
-  /* clear screen for 640x400 mode 1 */
-  SDL_FillRect (public_surface, 0,
-                SDL_MapRGBA (public_surface->format, 0, 0, 0, 0xff));
-#endif
+  /* clear screen */
+  SDL_SetRenderDrawColor(main_renderer, 0, 0, 0, 255);
+  SDL_RenderClear(main_renderer);  
+  SDL_RenderPresent(main_renderer);
 
 #ifdef POWERMANGA_GP2X
   /* The native resolution is 320x200, so we scale up to 320x240
@@ -452,7 +365,6 @@ init_video_mode (void)
       window_height = display_height * 2;
     }
 
-  SDL_WM_SetCaption (window_tile, window_tile);
   /* force redraw entirely the screen */
   update_all = TRUE;
   if (power_conf->fullscreen > 0)
@@ -571,8 +483,7 @@ create_palettes (void)
           sdl_color_palette[i].b = src[2];
           src += 3;
         }
-      SDL_SetPalette (public_surface,
-                      SDL_PHYSPAL | SDL_LOGPAL, sdl_color_palette, 0, 256);
+		SDL_SetPaletteColors(public_surface->format->palette, sdl_color_palette, 0, 256);	  
     }
   else
     /* 16-bit depth with 65336 colors */
@@ -916,6 +827,7 @@ display_handle_events (void)
   Uint8 *keys;
   SDL_Event event;
   SDL_KeyboardEvent *ke;
+  Uint32 uc;
   while (SDL_PollEvent (&event) > 0)
     {
       switch (event.type)
@@ -923,23 +835,23 @@ display_handle_events (void)
         case SDL_KEYDOWN:
           {
             ke = (SDL_KeyboardEvent *) & event;
-            /* LOG_INF ("SDL_KEYDOWN: "
+             /*LOG_INF ("SDL_KEYDOWN: "
                "%i %i %i %i", ke->type, ke->keysym.sym,
-               ke->keysym.unicode, ke->state); */
-#ifdef __EMSCRIPTEN__
+               ke->keysym.scancode, ke->state); */
+
             keys = SDL_GetKeyboardState (NULL);
-#else
-            keys = SDL_GetKeyState (NULL);
-#endif
+
             key_status (keys);
-            if (ke->keysym.unicode > 0)
-              {
-                sprites_string_key_down (ke->keysym.unicode, ke->keysym.sym);
-              }
-            else
-              {
-                sprites_string_key_down (ke->keysym.sym, ke->keysym.sym);
-              }
+
+			/* special keys for playername input */
+			if ((ke->keysym.sym == SDLK_BACKSPACE) ||
+				(ke->keysym.sym == SDLK_RIGHT) ||
+				(ke->keysym.sym == SDLK_LEFT) ||
+				(ke->keysym.sym == SDLK_DELETE) ||
+				(ke->keysym.sym == SDLK_RETURN)) {
+			   sprites_string_key_down (ke->keysym.sym, ke->keysym.sym);
+			}
+
             /* save key code pressed */
             key_code_down = ke->keysym.sym;
           }
@@ -950,20 +862,16 @@ display_handle_events (void)
             ke = (SDL_KeyboardEvent *) & event;
             /* LOG_INF ("SDL_KEYUP: "
                "%i %i %i %i\n", ke->type, ke->keysym.sym,
-               ke->keysym.unicode, ke->state); */
-#ifdef __EMSCRIPTEN__
+               ke->keysym.scancode, ke->state); */
+
             keys = SDL_GetKeyboardState (NULL);
-#else
-            keys = SDL_GetKeyState (NULL);
-#endif
-            if (ke->keysym.unicode > 0)
-              {
-                sprites_string_key_up (ke->keysym.unicode, ke->keysym.sym);
-              }
-            else
-              {
-                sprites_string_key_up (ke->keysym.sym, ke->keysym.sym);
-              }
+
+  		    if (lastKeySym != 0) {
+				/* release previous key from SDL_TEXTINPUT */
+				sprites_string_key_up (lastKeySym, lastKeySym);
+				lastKeySym = 0;
+			}
+						
             if (key_code_down == (Uint32) ke->keysym.sym)
               {
                 /* clear key code */
@@ -972,6 +880,19 @@ display_handle_events (void)
             key_status (keys);
           }
           break;
+		  
+		case SDL_TEXTINPUT:
+			/* use only ASCII chars */
+			uc = (Uint32)event.text.text[0];
+			if ((uc >= 32) && (uc < 128)) {
+				/* problem: the key is never released 
+				   remeber the key in lastKeySym and it will be released
+				   later in SDL_KEYUP */
+				sprites_string_key_down(uc, uc);
+				lastKeySym = uc;
+			}
+			break;
+		  
         case SDL_JOYHATMOTION:
           if (event.jhat.value == SDL_HAT_RIGHTUP)
             {
@@ -1152,31 +1073,40 @@ display_handle_events (void)
             }
 
           /* application loses/gains visibility */
-        case SDL_ACTIVEEVENT:
-          //LOG_INF ("  > SDL_ACTIVEEVENT: %i <", event.active.state);
-          if (event.active.state & SDL_APPMOUSEFOCUS)
-            {
-              LOG_DBG ("[SDL_APPMOUSEFOCUS] The app has mouse coverage; "
-                       " event.active.gain: %i", event.active.gain);
-            }
-          if (event.active.state & SDL_APPINPUTFOCUS)
-            {
-              LOG_DBG ("[SDL_APPINPUTFOCUS] The app has input focus; "
-                       "event.active.gain: %i", event.active.gain);
-              display_toggle_pause (event.active.gain);
-            }
-          if (event.active.state & SDL_APPACTIVE)
-            {
-              is_iconified = event.active.gain ? TRUE : FALSE;
-              LOG_DBG ("[SDL_APPACTIVE]The application is active; "
-                       "event.active.gain: %i, is_iconified: %i",
-                       event.active.gain, is_iconified);
-              display_toggle_pause (event.active.gain);
-            }
-          break;
+		case SDL_WINDOWEVENT:
+			switch (event.window.event) {
+				case SDL_WINDOWEVENT_ENTER:
+					LOG_DBG ("[SDL_WINDOWEVENT_ENTER] The app has mouse coverage;");
+					break;
+				case SDL_WINDOWEVENT_LEAVE:
+					LOG_DBG ("[SDL_WINDOWEVENT_LEAVE] The app lost mouse coverage;");
+					break;
+				case SDL_WINDOWEVENT_FOCUS_GAINED:
+					LOG_DBG ("[SDL_WINDOWEVENT_FOCUS_GAINED] The app has input focus;");
+					display_toggle_pause(1);
+					break;
+				case SDL_WINDOWEVENT_FOCUS_LOST:
+					LOG_DBG ("[SDL_WINDOWEVENT_FOCUS_LOST] The app lost input focus;");
+					display_toggle_pause(0);
+					break;
+				case SDL_WINDOWEVENT_MINIMIZED:
+					is_iconified = TRUE;
+					LOG_DBG ("[SDL_WINDOWEVENT_MINIMIZED]The application is minimized;");
+					display_toggle_pause(0);
+					break;
+				case SDL_WINDOWEVENT_RESTORED:
+					is_iconified = FALSE;
+					LOG_DBG ("[SDL_WINDOWEVENT_RESTORED]The application is active;");
+					display_toggle_pause(1);
+					break;
+				default:
+					break;
+			}
+			break;
 
           /* screen needs to be redrawn */
-        case SDL_VIDEOEXPOSE:
+		  /* unsupported in SDL2 ? */
+/*        case SDL_VIDEOEXPOSE:
           update_all = TRUE;
           if (SDL_FillRect (public_surface, NULL, real_black_color) < 0)
             {
@@ -1184,7 +1114,7 @@ display_handle_events (void)
                        SDL_GetError ());
             }
           break;
-
+*/
           /* mouse moved */
         case SDL_MOUSEMOTION:
           break;
@@ -1203,87 +1133,87 @@ display_handle_events (void)
 void
 key_status (Uint8 * k)
 {
-  keys_down[K_ESCAPE] = k[SDLK_ESCAPE];
-  keys_down[K_CTRL] = k[SDLK_LCTRL];
-  keys_down[K_CTRL] |= k[SDLK_RCTRL];
-  keys_down[K_RETURN] = k[SDLK_RETURN];
-  keys_down[K_PAUSE] = k[SDLK_PAUSE];
-  keys_down[K_SHIFT] = k[SDLK_LSHIFT];
-  keys_down[K_SHIFT] |= k[SDLK_RSHIFT];
-  keys_down[K_1] = k[SDLK_1] | k[SDLK_KP1];
-  keys_down[K_2] = k[SDLK_2] | k[SDLK_KP2];
-  keys_down[K_3] = k[SDLK_3] | k[SDLK_KP3];
-  keys_down[K_4] = k[SDLK_4] | k[SDLK_KP4];
-  keys_down[K_5] = k[SDLK_5] | k[SDLK_KP5];
-  keys_down[K_6] = k[SDLK_6] | k[SDLK_KP6];
-  keys_down[K_7] = k[SDLK_7] | k[SDLK_KP7];
-  keys_down[K_8] = k[SDLK_8] | k[SDLK_KP8];
-  keys_down[K_9] = k[SDLK_9] | k[SDLK_KP9];
-  keys_down[K_0] = k[SDLK_0] | k[SDLK_KP0];
-  keys_down[K_F1] = k[SDLK_F1];
-  keys_down[K_F2] = k[SDLK_F2];
-  keys_down[K_F3] = k[SDLK_F3];
-  keys_down[K_F4] = k[SDLK_F4];
-  keys_down[K_F5] = k[SDLK_F5];
-  keys_down[K_F6] = k[SDLK_F6];
-  keys_down[K_F7] = k[SDLK_F7];
-  keys_down[K_F8] = k[SDLK_F8];
-  keys_down[K_F9] = k[SDLK_F9];
-  keys_down[K_F10] = k[SDLK_F10];
-  keys_down[K_F11] = k[SDLK_F11];
-  keys_down[K_F12] = k[SDLK_F12];
-  keys_down[K_INSERT] = k[SDLK_INSERT];
-  keys_down[K_SPACE] = k[SDLK_SPACE];
+  keys_down[K_ESCAPE] = k[SDL_SCANCODE_ESCAPE];
+  keys_down[K_CTRL] = k[SDL_SCANCODE_LCTRL];
+  keys_down[K_CTRL] |= k[SDL_SCANCODE_RCTRL];
+  keys_down[K_RETURN] = k[SDL_SCANCODE_RETURN];
+  keys_down[K_PAUSE] = k[SDL_SCANCODE_PAUSE];
+  keys_down[K_SHIFT] = k[SDL_SCANCODE_LSHIFT];
+  keys_down[K_SHIFT] |= k[SDL_SCANCODE_RSHIFT];
+  keys_down[K_1] = k[SDL_SCANCODE_1] | k[SDL_SCANCODE_KP_1];
+  keys_down[K_2] = k[SDL_SCANCODE_2] | k[SDL_SCANCODE_KP_2];
+  keys_down[K_3] = k[SDL_SCANCODE_3] | k[SDL_SCANCODE_KP_3];
+  keys_down[K_4] = k[SDL_SCANCODE_4] | k[SDL_SCANCODE_KP_4];
+  keys_down[K_5] = k[SDL_SCANCODE_5] | k[SDL_SCANCODE_KP_5];
+  keys_down[K_6] = k[SDL_SCANCODE_6] | k[SDL_SCANCODE_KP_6];
+  keys_down[K_7] = k[SDL_SCANCODE_7] | k[SDL_SCANCODE_KP_7];
+  keys_down[K_8] = k[SDL_SCANCODE_8] | k[SDL_SCANCODE_KP_8];
+  keys_down[K_9] = k[SDL_SCANCODE_9] | k[SDL_SCANCODE_KP_9];
+  keys_down[K_0] = k[SDL_SCANCODE_0] | k[SDL_SCANCODE_KP_0];
+  keys_down[K_F1] = k[SDL_SCANCODE_F1];
+  keys_down[K_F2] = k[SDL_SCANCODE_F2];
+  keys_down[K_F3] = k[SDL_SCANCODE_F3];
+  keys_down[K_F4] = k[SDL_SCANCODE_F4];
+  keys_down[K_F5] = k[SDL_SCANCODE_F5];
+  keys_down[K_F6] = k[SDL_SCANCODE_F6];
+  keys_down[K_F7] = k[SDL_SCANCODE_F7];
+  keys_down[K_F8] = k[SDL_SCANCODE_F8];
+  keys_down[K_F9] = k[SDL_SCANCODE_F9];
+  keys_down[K_F10] = k[SDL_SCANCODE_F10];
+  keys_down[K_F11] = k[SDL_SCANCODE_F11];
+  keys_down[K_F12] = k[SDL_SCANCODE_F12];
+  keys_down[K_INSERT] = k[SDL_SCANCODE_INSERT];
+  keys_down[K_SPACE] = k[SDL_SCANCODE_SPACE];
   if (is_reverse_ctrl)
     {
-      keys_down[K_LEFT] = k[SDLK_DOWN];
-      keys_down[K_RIGHT] = k[SDLK_UP];
-      keys_down[K_UP] = k[SDLK_LEFT];
-      keys_down[K_DOWN] = k[SDLK_RIGHT];
+      keys_down[K_LEFT] = k[SDL_SCANCODE_DOWN];
+      keys_down[K_RIGHT] = k[SDL_SCANCODE_UP];
+      keys_down[K_UP] = k[SDL_SCANCODE_LEFT];
+      keys_down[K_DOWN] = k[SDL_SCANCODE_RIGHT];
     }
   else
     {
-      keys_down[K_LEFT] = k[SDLK_LEFT];
-      keys_down[K_RIGHT] = k[SDLK_RIGHT];
-      keys_down[K_UP] = k[SDLK_UP];
-      keys_down[K_DOWN] = k[SDLK_DOWN];
+      keys_down[K_LEFT] = k[SDL_SCANCODE_LEFT];
+      keys_down[K_RIGHT] = k[SDL_SCANCODE_RIGHT];
+      keys_down[K_UP] = k[SDL_SCANCODE_UP];
+      keys_down[K_DOWN] = k[SDL_SCANCODE_DOWN];
     }
   /* [Ctrl] + [A]: ABOUT */
-  keys_down[K_A] = k[SDLK_a];
+  keys_down[K_A] = k[SDL_SCANCODE_A];
   /* switch between full screen and windowed mode */
-  keys_down[K_F] = k[SDLK_f];
-  keys_down[K_V] = k[SDLK_v];
-  keys_down[K_B] = k[SDLK_b];
+  keys_down[K_F] = k[SDL_SCANCODE_F];
+  keys_down[K_V] = k[SDL_SCANCODE_V];
+  keys_down[K_B] = k[SDL_SCANCODE_B];
   /* enable/disable pause */
-  keys_down[K_P] = k[SDLK_p];
+  keys_down[K_P] = k[SDL_SCANCODE_P];
   /* [Ctrl] + [Q]: force "Game Over" */
-  keys_down[K_Q] = k[SDLK_q];
+  keys_down[K_Q] = k[SDL_SCANCODE_Q];
   /* [Ctrl] + [S]: enable/disable the music */
-  keys_down[K_S] = k[SDLK_s];
+  keys_down[K_S] = k[SDL_SCANCODE_S];
   /* right */
-  keys_down[K_RIGHT] |= k[SDLK_KP6];
+  keys_down[K_RIGHT] |= k[SDL_SCANCODE_KP_6];
   /* left */
-  keys_down[K_LEFT] |= k[SDLK_KP4];
+  keys_down[K_LEFT] |= k[SDL_SCANCODE_KP_4];
   /* up */
-  keys_down[K_UP] |= k[SDLK_KP8];
+  keys_down[K_UP] |= k[SDL_SCANCODE_KP_8];
   /* down */
-  keys_down[K_DOWN] |= k[SDLK_KP5];
+  keys_down[K_DOWN] |= k[SDL_SCANCODE_KP_5];
   /* power-up (aka Ctrl key) */
-  keys_down[K_CTRL] |= k[SDLK_KP2];
+  keys_down[K_CTRL] |= k[SDL_SCANCODE_KP_2];
   /* fire (aka space bar) */
-  keys_down[K_SPACE] |= k[SDLK_KP0];
+  keys_down[K_SPACE] |= k[SDL_SCANCODE_KP_0];
   /* fire (aka space ENTER) */
-  if (k[SDLK_RETURN] && !is_playername_input () &&
+  if (k[SDL_SCANCODE_RETURN] && !is_playername_input () &&
       menu_section != SECTION_ORDER)
     {
-      keys_down[K_SPACE] |= k[SDLK_RETURN];
+      keys_down[K_SPACE] |= k[SDL_SCANCODE_RETURN];
     }
-  keys_down[K_C] = k[SDLK_c];
-  keys_down[K_G] = k[SDLK_g];
-  keys_down[K_E] = k[SDLK_e];
+  keys_down[K_C] = k[SDL_SCANCODE_C];
+  keys_down[K_G] = k[SDL_SCANCODE_G];
+  keys_down[K_E] = k[SDL_SCANCODE_E];
   /* Volume control */
-  keys_down[K_PAGEUP] = k[SDLK_PAGEUP];
-  keys_down[K_PAGEDOWN] = k[SDLK_PAGEDOWN];
+  keys_down[K_PAGEUP] = k[SDL_SCANCODE_PAGEUP];
+  keys_down[K_PAGEDOWN] = k[SDL_SCANCODE_PAGEDOWN];
 }
 
 /**
@@ -1391,8 +1321,7 @@ display_movie (void)
           {
             LOG_ERR ("SDL_BlitSurface() return %s", SDL_GetError ());
           }
-        SDL_UpdateRect (public_surface, 0, 0,
-                        public_surface->w, public_surface->h);
+		  SDL_UpdateWindowSurface(main_window);
       }
       break;
 
@@ -1431,14 +1360,7 @@ display_movie (void)
           }
       }
 
-      if (window_height == 480)
-        {
-          SDL_UpdateRect (public_surface, 0, 40,
-                          public_surface->w, public_surface->h - 40);
-        }
-      else
-        SDL_UpdateRect (public_surface, 0, 0,
-                        public_surface->w, public_surface->h);
+	  SDL_UpdateWindowSurface(main_window);
       break;
 
       /* scale 2x, 3x or 4x mode */
@@ -1455,8 +1377,7 @@ display_movie (void)
 #ifdef __EMSCRIPTEN__
       SDL_UnlockSurface (public_surface);
 #endif
-      SDL_UpdateRect (public_surface, 0, 0,
-                      public_surface->w, public_surface->h);
+	  SDL_UpdateWindowSurface(main_window);
       break;
     }
 }
@@ -1611,9 +1532,7 @@ display_320x200 (void)
           is_player_score_displayed = FALSE;
         }
     }
-  SDL_UpdateRect (public_surface, 0, 0, public_surface->w, public_surface->h);
-  /* SDL_UpdateRect (public_surface, 0, 16, 256, 184); */
-
+  SDL_UpdateWindowSurface(main_window);
 }
 
 /**
@@ -1732,7 +1651,7 @@ display_scale_x (void)
   SDL_UnlockSurface (public_surface);
 #endif
 
-  SDL_UpdateRect (public_surface, 0, 0, public_surface->w, public_surface->h);
+  SDL_UpdateWindowSurface(main_window);
 }
 #endif
 
@@ -2004,8 +1923,7 @@ display_640x400 (void)
   SDL_UnlockSurface (scalex_surface);
 #endif
 
-  SDL_UpdateRect (public_surface, 0, starty, public_surface->w,
-                  public_surface->h - starty);
+ SDL_UpdateWindowSurface(main_window);
 }
 
 #ifdef USE_SDL_JOYSTICK
@@ -2097,6 +2015,10 @@ display_free (void)
 #ifdef USE_SDL_JOYSTICK
   display_close_joysticks ();
 #endif
+  SDL_DestroyRenderer(main_renderer);
+  main_renderer = NULL;
+  SDL_DestroyWindow(main_window);
+  main_window = NULL;
   SDL_Quit ();
   LOG_INF ("SDL_Quit()");
   if (pal16 != NULL)
@@ -2165,7 +2087,7 @@ create_surface (Uint32 width, Uint32 height)
     }
   get_rgb_mask (&rmask, &gmask, &bmask);
   surface =
-    SDL_CreateRGBSurface (SDL_ANYFORMAT, width, height, bits_per_pixel,
+    SDL_CreateRGBSurface (0, width, height, bits_per_pixel,
                           rmask, gmask, bmask, 0);
   if (surface == NULL)
     {
@@ -2173,8 +2095,8 @@ create_surface (Uint32 width, Uint32 height)
       return NULL;
     }
   if (bytes_per_pixel == 1)
-    SDL_SetPalette (surface, SDL_PHYSPAL | SDL_LOGPAL, sdl_color_palette, 0,
-                    256);
+	  SDL_SetPaletteColors(surface->format->palette, sdl_color_palette, 0, 256);
+
   surfaces_list[index] = surface;
   surfaces_counter++;
   LOG_DBG ("SDL_CreateRGBSurface(%i,%i,%i)", width, height, bits_per_pixel);
