@@ -308,24 +308,19 @@ init_video_mode (void)
 	  LOG_ERR("SDL_CreateWindow() return %s", SDL_GetError());
 	  return FALSE;
     }
-    
-  #ifdef POWERMANGA_HANDHELD_CONSOLE
-  Uint32 rflag = SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC;
-  #else
-  Uint32 rflag = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-  #endif
-  
-  main_renderer = SDL_CreateRenderer(main_window, -1, rflag);
-  if (main_renderer == NULL) 
-    {
-	  LOG_ERR("SDL_CreateRenderer() return %s", SDL_GetError());
-	  return FALSE;
-    }
+      
   public_surface = SDL_GetWindowSurface(main_window);
   if (public_surface == NULL)
     {
       LOG_ERR ("SDL_GetWindowSurface() return %s", SDL_GetError ());
       return FALSE;
+    }
+	
+  main_renderer = SDL_CreateSoftwareRenderer(public_surface);
+  if (main_renderer == NULL) 
+    {
+	  LOG_ERR("SDL_CreateSoftwareRenderer() return %s", SDL_GetError());
+	  return FALSE;
     }
 	
   SDL_DisplayMode dm;
@@ -348,10 +343,9 @@ init_video_mode (void)
            " window_height: %i; bits_per_pixel: %i; Rmask",
            width, height, bits_per_pixel);
 
-  /* clear screen */
-  SDL_SetRenderDrawColor(main_renderer, 0, 0, 0, 255);
-  SDL_RenderClear(main_renderer);  
-  SDL_RenderPresent(main_renderer);
+  /* clear screen */  
+  SDL_FillRect(public_surface, NULL, 0);
+  SDL_UpdateWindowSurface(main_window);
 
 #ifdef POWERMANGA_GP2X
   /* The native resolution is 320x200, so we scale up to 320x240
