@@ -26,6 +26,15 @@ COMPILING AND INSTALLING
        ./configure
         make
         su -c 'make install'
+		
+COMPILATION WITH CMAKE
+
+	Example for SDL2 :
+
+		mkdir build
+		cd build
+		cmake .. -DCMAKE_BUILD_TYPE="Release" -DPOWERMANGA_SDL=on -DPOWERMANGA_SDL2=on
+		cmake --build . --config Release
 
 LEGAL
 
