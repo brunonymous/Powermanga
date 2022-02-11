@@ -55,7 +55,10 @@
 #undef PNG_EXPORT_ENABLE
 
 /* Define to enable SDL support */
-#undef POWERMANGA_SDL
+#cmakedefine POWERMANGA_SDL
+
+/* Define to enable SDL2 support (POWERMANGA_SDL must be enabled) */
+#cmakedefine POWERMANGA_SDL2
 
 /* Define to enable X11 support */
 #undef POWERMANGA_X11
@@ -64,13 +67,13 @@
 #undef STDC_HEADERS
 
 /* Define to enable development version */
-#undef UNDER_DEVELOPMENT
+#define UNDER_DEVELOPMENT
 
 /* Define to use a malloc wrapper */
 #undef USE_MALLOC_WRAPPER
 
-/* Enable sound (SDL Mixer) */
-#undef USE_SDLMIXER
+/* Enable sound (SDL Mixer, or SDL2 Mixer) */
+#cmakedefine USE_SDLMIXER
 
 /* Version number of package */
 #undef VERSION

@@ -27,13 +27,44 @@ configure_file (
 	"${PROJECT_SOURCE_DIR}/src/config.h"
 )
 
+# on Windows search external libraries in dependencies folder
+if(WIN32)
+set(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
+endif()
+
 if(NOT EMSCRIPTEN)
-if(POWERMANGA_SDL)
-find_package(SDL)
-if(USE_SDLMIXER)
-find_package(SDL_mixer)
-endif()
-endif()
+	if(POWERMANGA_SDL)
+		if(POWERMANGA_SDL2)
+			if(WIN32)
+				find_path(SDL2_INCLUDE_DIRS NAMES SDL.h 
+					PATHS "${DEPENDENCY_FOLDER}/SDL2/include")
+				if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+					find_library(SDL2_LIBRARY NAMES SDL2  
+						PATHS "${DEPENDENCY_FOLDER}/SDL2/lib/x64")
+					find_library(SDL2_LIBRARY_MAIN NAMES SDL2main 
+						PATHS "${DEPENDENCY_FOLDER}/SDL2/lib/x64")
+					SET(SDL2_LIBRARIES ${SDL2_LIBRARY} ${SDL2_LIBRARY_MAIN})
+				else()
+					find_library(SDL2_LIBRARY NAMES SDL2 SDL2main 
+						PATHS "${DEPENDENCY_FOLDER}/SDL2/lib/x86")
+					find_library(SDL2_LIBRARY_MAIN NAMES SDL2 SDL2main 
+						PATHS "${DEPENDENCY_FOLDER}/SDL2/lib/x86")
+					SET(SDL2_LIBRARIES ${SDL2_LIBRARY} ${SDL2_LIBRARY_MAIN})
+				endif()
+			else()
+				find_package(SDL2 REQUIRED)
+			endif()			
+			
+			if(USE_SDLMIXER)
+				find_package(SDL2_mixer REQUIRED)
+			endif()
+		else()
+			find_package(SDL REQUIRED)
+			if(USE_SDLMIXER)
+				find_package(SDL_mixer REQUIRED)
+			endif()
+		endif()
+	endif()
 endif()
 
 # assets path
@@ -92,19 +123,20 @@ endif()
 endif()
 
 if(NOT EMSCRIPTEN)
-include_directories(
-	${INCLUDE_DIRECTORIES}
-)
-if(POWERMANGA_SDL)
-include_directories(
-	${SDL_INCLUDE_DIR}
-)
-endif()
-if(USE_SDLMIXER)
-include_directories(
-	${SDL_MIXER_INCLUDE_DIR}
-)
-endif()
+	include_directories(${INCLUDE_DIRECTORIES})
+	if(POWERMANGA_SDL)
+		if(POWERMANGA_SDL2)
+			include_directories(${SDL2_INCLUDE_DIRS})
+			if(USE_SDLMIXER)
+				include_directories(${SDL2_MIXER_INCLUDE_DIR})
+			endif()
+		else()
+			include_directories(${SDL_INCLUDE_DIRS})
+			if(USE_SDLMIXER)
+				include_directories(${SDL_MIXER_INCLUDE_DIRS})
+			endif()
+		endif()
+	endif()
 endif()
 
 # files
@@ -202,32 +234,26 @@ add_executable(
 )
 
 if(NOT EMSCRIPTEN)
-
-if(POWERMANGA_SDL)
-target_link_libraries(
-	powermanga
-	${SDL_LIBRARY}
-)
-if(USE_SDLMIXER)
-target_link_libraries(
-	powermanga
-	${SDL_MIXER_LIBRARY}
-)
-endif()
-endif()
-
-if(UNIX)
-target_link_libraries(
-	powermanga
-	-lm
-)
-else()
-
-endif()
+	if(POWERMANGA_SDL)
+		if(POWERMANGA_SDL2)
+			target_link_libraries(powermanga ${SDL2_LIBRARIES})
+			if(USE_SDLMIXER)
+				target_link_libraries(powermanga ${SDL2_MIXER_LIBRARIES})
+			endif()
+		else()
+			target_link_libraries(powermanga ${SDL_LIBRARIES})
+			if(USE_SDLMIXER)
+				target_link_libraries(powermanga ${SDL_MIXER_LIBRARIES})
+			endif()
+		endif()
+	endif()
+	if(UNIX)
+		target_link_libraries(powermanga -lm)
+	endif()
 endif()
 
 if(EMSCRIPTEN)
-SET(CMAKE_EXECUTABLE_SUFFIX ".html")
+	SET(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()
 
 SET(RELEASE_NAME "powermanga")
