@@ -146,7 +146,11 @@ typedef unsigned int Uint32;
 #if defined(_WIN32_WCE) || defined(_WIN32)
 #include <SDL.h>
 #else
+#ifdef POWERMANGA_SDL2
+#include <SDL2/SDL.h>
+#else
 #include <SDL/SDL.h>
+#endif
 #endif
 
 #endif
