@@ -153,7 +153,7 @@ static void free_surfaces (void);
 #ifdef USE_SDL_JOYSTICK
 void display_close_joysticks (void);
 #endif
-void key_status (Uint8 * k);
+void key_status (const Uint8 * k);
 /** Color table in 8-bit depth */
 SDL_Color *sdl_color_palette = NULL;
 static const char window_tile[] = POWERMANGA_VERSION " by TLK Games (SDL)\0";
@@ -824,7 +824,6 @@ display_toggle_pause (Uint8 gain)
 void
 display_handle_events (void)
 {
-  Uint8 *keys;
   SDL_Event event;
   SDL_KeyboardEvent *ke;
   Uint32 uc;
@@ -839,9 +838,7 @@ display_handle_events (void)
                "%i %i %i %i", ke->type, ke->keysym.sym,
                ke->keysym.scancode, ke->state); */
 
-            keys = SDL_GetKeyboardState (NULL);
-
-            key_status (keys);
+            key_status (SDL_GetKeyboardState (NULL));
 
 			/* special keys for playername input */
 			if ((ke->keysym.sym == SDLK_BACKSPACE) ||
@@ -864,8 +861,6 @@ display_handle_events (void)
                "%i %i %i %i\n", ke->type, ke->keysym.sym,
                ke->keysym.scancode, ke->state); */
 
-            keys = SDL_GetKeyboardState (NULL);
-
   		    if (lastKeySym != 0) {
 				/* release previous key from SDL_TEXTINPUT */
 				sprites_string_key_up (lastKeySym, lastKeySym);
@@ -877,7 +872,7 @@ display_handle_events (void)
                 /* clear key code */
                 key_code_down = 0;
               }
-            key_status (keys);
+            key_status (SDL_GetKeyboardState (NULL));
           }
           break;
 		  
@@ -1131,7 +1126,7 @@ display_handle_events (void)
  * @param k Pointer to an array of snapshot of the current keyboard state
  */
 void
-key_status (Uint8 * k)
+key_status (const Uint8 * k)
 {
   keys_down[K_ESCAPE] = k[SDL_SCANCODE_ESCAPE];
   keys_down[K_CTRL] = k[SDL_SCANCODE_LCTRL];
