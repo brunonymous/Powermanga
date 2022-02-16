@@ -169,17 +169,29 @@ typedef unsigned int Uint32;
 #endif
 
 #ifdef USE_SDLMIXER
+#if defined(_WIN32_WCE) || defined(_WIN32)
+#include <SDL_thread.h>
+#include <SDL_mixer.h>
+#else
+#ifdef POWERMANGA_SDL2
+#if defined(POWERMANGA_X11)
+#include <SDL2/SDL.h>
+#endif
+#include <SDL2/SDL_thread.h>
+#include <SDL2/SDL_mixer.h>
+#else
 #if defined(POWERMANGA_X11)
 #include <SDL/SDL.h>
 #endif
 #include <SDL/SDL_thread.h>
 #include <SDL/SDL_mixer.h>
 #endif
+#endif
+#endif
 
 #ifdef _WIN32
 #pragma warning(pop)
 #endif
-
 
 /* #define SHAREWARE_VERSION */
 /** Maximum number of levels in the game, range 0 to 41 */
