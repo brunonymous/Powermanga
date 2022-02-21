@@ -161,6 +161,20 @@ static const char window_tile[] = POWERMANGA_VERSION " by TLK Games (SDL)\0";
 static bool is_reverse_ctrl = FALSE;
 static bool pause_will_disable = FALSE;
 
+/* scancode values for keys with a different scancod / keycode */
+Uint32 scancode_a = 0;
+Uint32 scancode_f = 0;
+Uint32 scancode_v = 0;
+Uint32 scancode_b = 0;
+Uint32 scancode_p = 0;
+Uint32 scancode_q = 0;
+Uint32 scancode_s = 0;
+Uint32 scancode_c = 0;
+Uint32 scancode_g = 0;
+Uint32 scancode_e = 0;
+
+void init_key_status ();
+
 /**
  * Initialize SDL display
  * @return TRUE if it completed successfully or FALSE otherwise
@@ -221,6 +235,9 @@ display_init (void)
       return FALSE;
     }
 #endif
+
+  /* init keys scancodes */
+  init_key_status ();
 	   
   if (!init_video_mode ())
     {
@@ -1114,6 +1131,21 @@ display_handle_events (void)
         }
     }
 }
+	
+/* Get SDL2 scancode from keycode (independant keyboard layout) */
+void init_key_status()
+{
+	scancode_a = SDL_GetScancodeFromKey(SDLK_a);
+	scancode_f = SDL_GetScancodeFromKey(SDLK_f);
+	scancode_v = SDL_GetScancodeFromKey(SDLK_v);
+	scancode_b = SDL_GetScancodeFromKey(SDLK_b);
+	scancode_p = SDL_GetScancodeFromKey(SDLK_p);
+	scancode_q = SDL_GetScancodeFromKey(SDLK_q);
+	scancode_s = SDL_GetScancodeFromKey(SDLK_s);
+	scancode_c = SDL_GetScancodeFromKey(SDLK_c);
+	scancode_g = SDL_GetScancodeFromKey(SDLK_g);
+	scancode_e = SDL_GetScancodeFromKey(SDLK_e);
+}
 
 /**
  * Copy SDL flags buttons
@@ -1121,6 +1153,96 @@ display_handle_events (void)
  */
 void
 key_status (const Uint8 * k)
+{
+  keys_down[K_ESCAPE] = k[SDL_SCANCODE_ESCAPE];
+  keys_down[K_CTRL] = k[SDL_SCANCODE_LCTRL];
+  keys_down[K_CTRL] |= k[SDL_SCANCODE_RCTRL];
+  keys_down[K_RETURN] = k[SDL_SCANCODE_RETURN];
+  keys_down[K_PAUSE] = k[SDL_SCANCODE_PAUSE];
+  keys_down[K_SHIFT] = k[SDL_SCANCODE_LSHIFT];
+  keys_down[K_SHIFT] |= k[SDL_SCANCODE_RSHIFT];
+  keys_down[K_1] = k[SDL_SCANCODE_1] | k[SDL_SCANCODE_KP_1];
+  keys_down[K_2] = k[SDL_SCANCODE_2] | k[SDL_SCANCODE_KP_2];
+  keys_down[K_3] = k[SDL_SCANCODE_3] | k[SDL_SCANCODE_KP_3];
+  keys_down[K_4] = k[SDL_SCANCODE_4] | k[SDL_SCANCODE_KP_4];
+  keys_down[K_5] = k[SDL_SCANCODE_5] | k[SDL_SCANCODE_KP_5];
+  keys_down[K_6] = k[SDL_SCANCODE_6] | k[SDL_SCANCODE_KP_6];
+  keys_down[K_7] = k[SDL_SCANCODE_7] | k[SDL_SCANCODE_KP_7];
+  keys_down[K_8] = k[SDL_SCANCODE_8] | k[SDL_SCANCODE_KP_8];
+  keys_down[K_9] = k[SDL_SCANCODE_9] | k[SDL_SCANCODE_KP_9];
+  keys_down[K_0] = k[SDL_SCANCODE_0] | k[SDL_SCANCODE_KP_0];
+  keys_down[K_F1] = k[SDL_SCANCODE_F1];
+  keys_down[K_F2] = k[SDL_SCANCODE_F2];
+  keys_down[K_F3] = k[SDL_SCANCODE_F3];
+  keys_down[K_F4] = k[SDL_SCANCODE_F4];
+  keys_down[K_F5] = k[SDL_SCANCODE_F5];
+  keys_down[K_F6] = k[SDL_SCANCODE_F6];
+  keys_down[K_F7] = k[SDL_SCANCODE_F7];
+  keys_down[K_F8] = k[SDL_SCANCODE_F8];
+  keys_down[K_F9] = k[SDL_SCANCODE_F9];
+  keys_down[K_F10] = k[SDL_SCANCODE_F10];
+  keys_down[K_F11] = k[SDL_SCANCODE_F11];
+  keys_down[K_F12] = k[SDL_SCANCODE_F12];
+  keys_down[K_INSERT] = k[SDL_SCANCODE_INSERT];
+  keys_down[K_SPACE] = k[SDL_SCANCODE_SPACE];
+  if (is_reverse_ctrl)
+    {
+      keys_down[K_LEFT] = k[SDL_SCANCODE_LEFT];
+      keys_down[K_RIGHT] = k[SDL_SCANCODE_RIGHT];
+      keys_down[K_UP] = k[SDL_SCANCODE_UP];
+      keys_down[K_DOWN] = k[SDL_SCANCODE_DOWN];
+    }
+  else
+    {
+      keys_down[K_LEFT] = k[SDL_SCANCODE_LEFT];
+      keys_down[K_RIGHT] = k[SDL_SCANCODE_RIGHT];
+      keys_down[K_UP] = k[SDL_SCANCODE_UP];
+      keys_down[K_DOWN] = k[SDL_SCANCODE_DOWN];
+    }
+  /* [Ctrl] + [A]: ABOUT */
+  keys_down[K_A] = k[scancode_a];
+  /* switch between full screen and windowed mode */
+  keys_down[K_F] = k[scancode_f];
+  keys_down[K_V] = k[scancode_v];
+  keys_down[K_B] = k[scancode_b];
+  /* enable/disable pause */
+  keys_down[K_P] = k[scancode_p];
+  /* [Ctrl] + [Q]: force "Game Over" */
+  keys_down[K_Q] = k[scancode_q];
+  /* [Ctrl] + [S]: enable/disable the music */
+  keys_down[K_S] = k[scancode_s];
+  /* right */
+  keys_down[K_RIGHT] |= k[SDL_SCANCODE_KP_6];
+  /* left */
+  keys_down[K_LEFT] |= k[SDL_SCANCODE_KP_4];
+  /* up */
+  keys_down[K_UP] |= k[SDL_SCANCODE_KP_8];
+  /* down */
+  keys_down[K_DOWN] |= k[SDL_SCANCODE_KP_5];
+  /* power-up (aka Ctrl key) */
+  keys_down[K_CTRL] |= k[SDL_SCANCODE_KP_2];
+  /* fire (aka space bar) */
+  keys_down[K_SPACE] |= k[SDL_SCANCODE_KP_0];
+  /* fire (aka space ENTER) */
+  if (k[SDL_SCANCODE_RETURN] && !is_playername_input () &&
+      menu_section != SECTION_ORDER)
+    {
+      keys_down[K_SPACE] |= k[SDL_SCANCODE_RETURN];
+    }
+  keys_down[K_C] = k[scancode_c];
+  keys_down[K_G] = k[scancode_g];
+  keys_down[K_E] = k[scancode_e];
+  /* Volume control */
+  keys_down[K_PAGEUP] = k[SDL_SCANCODE_PAGEUP];
+  keys_down[K_PAGEDOWN] = k[SDL_SCANCODE_PAGEDOWN];	
+}
+
+/**
+ * Copy SDL flags buttons
+ * @param k Pointer to an array of snapshot of the current keyboard state
+ */
+void
+key_status_old (const Uint8 * k)
 {
   keys_down[K_ESCAPE] = k[SDL_SCANCODE_ESCAPE];
   keys_down[K_CTRL] = k[SDL_SCANCODE_LCTRL];
@@ -1202,7 +1324,7 @@ key_status (const Uint8 * k)
   keys_down[K_E] = k[SDL_SCANCODE_E];
   /* Volume control */
   keys_down[K_PAGEUP] = k[SDL_SCANCODE_PAGEUP];
-  keys_down[K_PAGEDOWN] = k[SDL_SCANCODE_PAGEDOWN];
+  keys_down[K_PAGEDOWN] = k[SDL_SCANCODE_PAGEDOWN];	
 }
 
 /**

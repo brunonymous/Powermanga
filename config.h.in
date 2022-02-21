@@ -67,7 +67,7 @@
 #undef STDC_HEADERS
 
 /* Define to enable development version */
-#define UNDER_DEVELOPMENT
+#undef UNDER_DEVELOPMENT
 
 /* Define to use a malloc wrapper */
 #undef USE_MALLOC_WRAPPER
