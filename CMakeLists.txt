@@ -15,6 +15,7 @@ SET(CMAKE_BUILD_TYPE Release)
 option(POWERMANGA_SDL 	"Using SDL library"		on)
 option(POWERMANGA_SDL2  "Using SDL2 library"	off)
 option(USE_SDLMIXER  	"Enable sound with SDL_Mixer library"	off)
+option(UNDER_DEVELOPMENT "Build development version" 	off)
 #option(POWERMANGA_X11 "Using XLib library" on Linux"		off)
 
 # configuration file

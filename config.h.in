@@ -67,7 +67,7 @@
 #undef STDC_HEADERS
 
 /* Define to enable development version */
-#undef UNDER_DEVELOPMENT
+#cmakedefine UNDER_DEVELOPMENT
 
 /* Define to use a malloc wrapper */
 #undef USE_MALLOC_WRAPPER
