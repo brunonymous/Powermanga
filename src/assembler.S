@@ -2076,3 +2076,8 @@ _et_col1:       .int 0    #11
 _et_col2:       .int 0    #13
 #_et_col1:       .byte 11
 #_et_col2:       .byte 13
+
+#if defined(__linux__) && defined(__ELF__)
+.section .note.GNU-stack,"",%progbits
+#endif
+
