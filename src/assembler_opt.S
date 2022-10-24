@@ -407,3 +407,6 @@ _COPY2X32BITS_512x440:
     leave
     ret
 
+#if defined(__linux__) && defined(__ELF__)
+.section .note.GNU-stack,"",%progbits
+#endif
